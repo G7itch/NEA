@@ -50,8 +50,8 @@ class Login(object):
     def __login(self): #Private function because it should only ever be used in context of the class instance
         """Used to 'log in' the user: sets the userid parameter and its return results sets the authenticated parameter"""
         password = sha256(self.__password.encode()).hexdigest()
-        userid = str(self.__c.execute(f"SELECT userid FROM users WHERE username ='{self.__username}' AND hash ='{password}'"))
-        if bool(len(userid)): #Check if there are any results that match both hash and username
+        userid = str(self.__c.execute(f"SELECT userid FROM users WHERE username ='{self.__username}' AND hash ='{password}'").fetchall())
+        if userid == "[(1,)]": #Check if there are any results that match both hash and username
             self.__userid = userid
             return self.__userid
         else:

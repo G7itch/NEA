@@ -4,9 +4,10 @@ from math import sqrt
 from vector import Vector
 from login import Login
 import matplotlib.pyplot as plt
-from matplotlib.collections import PatchCollection
-from matplotlib import cm, colors
+from threading import Thread
+import warnings
 import time
+import os
 #########################################################
 #Lots of general vector functions are defined in the vector class and Cbit/Qbit will inherit these
 #Qbits inherits all the more specialised bit functions from Cbit, but overwrites some and adds others
@@ -25,6 +26,17 @@ def drawgraph(qbit,i):
     plt.pause(0.5) # 0.5 seconds
     qbit.diffuse(i)
 
+def mainGraphLoop(qbit,i):
+    while True:
+        drawgraph(qbit,i)
+        i += 1
+
+def mainInputLoop(qbit):
+    while True:
+        a = input(">>  ")
+        match a.lower():
+            case "exit"|"quit"|"close"|"q"|"finish"|"end": os._exit(0)
+            case _: pass
 
 def main():
     #####################Login to system#######################
@@ -37,11 +49,12 @@ def main():
     ###########################################################
     #################Qbit Setup for graphing###################
     c = Qbit(1)
-    i = 0
     ###########################################################
-    while True:
-        drawgraph(c,i)
-        i += 1
+    print("\n")
+    with warnings.catch_warnings():
+        Thread(target=mainInputLoop, args=([c])).start()
+    mainGraphLoop(c,0)
+    
 
 
 main()
