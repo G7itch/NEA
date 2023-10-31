@@ -3,10 +3,12 @@ from cbit import Cbit
 from math import sqrt
 from vector import Vector
 from login import Login
+from interpreter import Interpreter
 import matplotlib.pyplot as plt
 from threading import Thread
 import warnings
 import time
+import getpass
 import os
 #########################################################
 #Lots of general vector functions are defined in the vector class and Cbit/Qbit will inherit these
@@ -22,8 +24,10 @@ def drawgraph(qbit,i):
         
     plt.matshow(qbit.probability,0)
     plt.ion()
+    cb = plt.colorbar()
     plt.show(block=False)
-    plt.pause(0.5) # 0.5 seconds
+    plt.pause(0.5)# 0.5 seconds
+    cb.remove()
     qbit.diffuse(i)
 
 def mainGraphLoop(qbit,i):
@@ -33,8 +37,8 @@ def mainGraphLoop(qbit,i):
 
 def mainInputLoop(qbit):
     while True:
-        a = input(">>  ")
-        match a.lower():
+        command = input(">>  ")
+        match command.lower():
             case "exit"|"quit"|"close"|"q"|"finish"|"end": os._exit(0)
             case _: pass
 
@@ -44,16 +48,17 @@ def main():
     if username == "":
         a = Login()
     else:
-        password = input("Enter your password: ")
+        password = getpass.getpass(prompt="Enter your password: ")
         a = Login(username,password)
     ###########################################################
-    #################Qbit Setup for graphing###################
+    ###########################Setup###########################
     c = Qbit(1)
-    ###########################################################
+    inter = Interpreter()
     print("\n")
+    ###########################################################
     with warnings.catch_warnings():
-        Thread(target=mainInputLoop, args=([c])).start()
-    mainGraphLoop(c,0)
+        Thread(target=mainInputLoop, args=([c])).start() #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
+        mainGraphLoop(c,0) 
     
 
 

@@ -51,7 +51,7 @@ class Qbit(Cbit):
 
     def _applygauss2d(self,array:list,n:int) -> bool:
         """Applies gaussian noise (centred on the standard normal Z distribution) to a 2d array"""
-        mean = 0.1
+        mean = 0
         stddv = 100/(2**n)
         noise = np.random.normal(loc=mean,scale=stddv,size=(len(array),len(array[0]))).tolist()
         for i in range(len(array)):

@@ -1,6 +1,7 @@
 import sqlite3
 from hashlib import sha256
-from re import match, fullmatch
+from re import fullmatch
+import getpass
 
 class Login(object):
 
@@ -74,9 +75,9 @@ class Login(object):
             self.__username = input("Enter a different username to register: ")
             usernamecheck = str(self.__c.execute(f"SELECT COUNT(*) FROM users WHERE username='{self.__username}'").fetchall())
         
-        self.__password = input("Enter the password you want to use for this account: ")
+        self.__password = getpass.getpass("Enter the password you want to use for this account: ")
         while self.__validPassword() != True: #Check if the password meets every requirement
-            self.__password = input("Please enter a different password, Check it meets all the requirments (8 characters, at least one uppercase letter, lowercase letter and number must be present): ")
+            self.__password = getpass.getpass("Please enter a different password, Check it meets all the requirments (8 characters, at least one uppercase letter, lowercase letter and number must be present): ")
         
         hash = sha256(self.__password.encode()).hexdigest() #human and processing friendly string version of password hash in hexidecimal
         self.__c.execute(f'''INSERT INTO users(username,hash) VALUES(?,?)''',(self.__username,hash)) # No error checking is needed here because of the two loops earlier preventing databsae errors due to duplication
