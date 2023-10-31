@@ -24,9 +24,11 @@ def drawgraph(qbit,i):
         
     plt.matshow(qbit.probability,0)
     plt.ion()
+    plt.title("Particle Probability distribution")
     cb = plt.colorbar()
+    plt.clim(0,0.1)
     plt.show(block=False)
-    plt.pause(0.5)# 0.5 seconds
+    plt.pause(0.5)
     cb.remove()
     qbit.diffuse(i)
 
@@ -53,7 +55,7 @@ def main():
     ###########################################################
     ###########################Setup###########################
     c = Qbit(1)
-    inter = Interpreter()
+    inter = Interpreter(c)
     print("\n")
     ###########################################################
     with warnings.catch_warnings():
