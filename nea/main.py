@@ -3,6 +3,7 @@ from cbit import Cbit
 from math import sqrt
 from vector import Vector
 from login import Login
+from interface import CodeEditor
 from interpreter import Interpreter
 import matplotlib.pyplot as plt
 from threading import Thread
@@ -37,12 +38,6 @@ def mainGraphLoop(qbit,i):
         drawgraph(qbit,i)
         i += 1
 
-def mainInputLoop(qbit):
-    while True:
-        command = input(">>  ")
-        match command.lower():
-            case "exit"|"quit"|"close"|"q"|"finish"|"end": os._exit(0)
-            case _: pass
 
 def main():
     #####################Login to system#######################
@@ -56,12 +51,12 @@ def main():
     ###########################Setup###########################
     c = Qbit(1)
     inter = Interpreter(c)
-    print("\n")
+    editor = CodeEditor()
+    os.system("cls")
     ###########################################################
-    with warnings.catch_warnings():
-        Thread(target=mainInputLoop, args=([c])).start() #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
+    with warnings.catch_warnings(): #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
         mainGraphLoop(c,0) 
-    
+        editor.mainloop()
 
 
 main()

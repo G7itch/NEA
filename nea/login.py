@@ -14,8 +14,8 @@ class Login(object):
         
         first = False #For checking if it is the first time setup for the database
         
-        try: self.__conn = sqlite3.connect("file:users.db?mode=rw", uri=True) #If the database doesnt exist we need to do some extra stuff before registering
-        except: self.__conn, first = sqlite3.connect("users.db"), True #Creates the database if it doesnt exist
+        try: self.__conn = sqlite3.connect("file:master.db?mode=rw", uri=True) #If the database doesnt exist we need to do some extra stuff before registering
+        except: self.__conn, first = sqlite3.connect("master.db"), True #Creates the database if it doesnt exist
 
         self.__c = self.__conn.cursor() #Setup the cursor for shorter commands
 
