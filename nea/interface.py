@@ -7,10 +7,11 @@ import tkinter.ttk as ttk
 import re
 import idlelib.colorizer as ic
 import idlelib.percolator as ip
+from interpreter import Interpreter
 
 class CodeEditor(tk.Tk):
 
-    def __init__(self):
+    def __init__(self,interpreter:object):
         """Creates the editor interface that the user interacts with throughout the entire program"""
         super().__init__()
 
@@ -20,7 +21,7 @@ class CodeEditor(tk.Tk):
         self.__thisFileMenu = Menu(self.__thisMenuBar, tearoff=0)
         self.__thisEditMenu = Menu(self.__thisMenuBar, tearoff=0) 
         self.__file = None
-        
+        self.__interpreter = interpreter
         
         self.text_widget = tk.Text(self, wrap="word", undo=True,font=("Calibri",16))
         self.text_widget.pack(expand=True, fill="both")
@@ -87,6 +88,8 @@ class CodeEditor(tk.Tk):
         code_line = str(code_line)
         self.text_widget.insert("end", code_line + "\n")
         self.entry.delete(0, "end")
+        self.__interpreter.interpret(code_line)
+        
 
     def __newFile(self):
         """Creates a new file in the code editor, resetting title, file reference, and clearing text."""

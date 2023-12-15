@@ -51,7 +51,7 @@ def main():
     ###########################Setup###########################
     c = Qbit(1)
     inter = Interpreter(c)
-    editor = CodeEditor()
+    editor = CodeEditor(inter)
     os.system("cls")
     ###########################################################
     with warnings.catch_warnings(): #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
