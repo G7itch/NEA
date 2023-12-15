@@ -5,6 +5,7 @@ from vector import Vector
 from login import Login
 from interface import CodeEditor
 from interpreter import Interpreter
+from Renderer import *
 import matplotlib.pyplot as plt
 from threading import Thread
 import warnings
@@ -52,10 +53,14 @@ def main():
     c = Qbit(1)
     inter = Interpreter(c)
     editor = CodeEditor(inter)
+    system = System(8.85418782e-12, 0.04)
+    renderer = Renderer(system, 0.6, 0.6, 1.6, 20, 20)
+    renderer.system.addPoint(Point(-0.3, -0.3, 0.55, 10))
     os.system("cls")
     ###########################################################
     with warnings.catch_warnings(): #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
-        mainGraphLoop(c,0) 
+        mainGraphLoop(c,0)
+        renderer.launch() #not sure if this will loop without threading
         editor.mainloop()
 
 
