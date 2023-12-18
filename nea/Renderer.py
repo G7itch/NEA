@@ -8,7 +8,7 @@ from Draggable import *
 mpl.rcParams['toolbar'] = 'None' 
 
 class Renderer():
-    def __init__(self, system, XMAX, YMAX, density, rx, ry):
+    def __init__(self, system:object, XMAX:float, YMAX:float, density:float, rx:float, ry:float):
         self.system = system
         self.XMAX, self.YMAX = XMAX, YMAX
         self.density = density
