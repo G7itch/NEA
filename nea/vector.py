@@ -92,4 +92,4 @@ class Vector(object):
     def __repr__(self) -> str:
         """Returns human friendly version of object using more traditional curved brackets"""
         return "(" + str(self.vector)[1:-1] + ")"
-    
+ 
