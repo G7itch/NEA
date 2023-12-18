@@ -14,7 +14,7 @@ class Vector(object):
 
     def setElement(self, index:int, value:float) -> bool:
         """Sets the value at one index in the vector to a given value"""
-        try: assert index <= len(self.vector) and type(index) ==int
+        try: assert index < len(self.vector) and type(index) ==int
         except AssertionError:
             print("Index must be an integer less than or equal to the length of the list")
             return False #Indicate failed execution
@@ -23,7 +23,7 @@ class Vector(object):
     
     def getElement(self,index:int) -> float:
         """Returns the value stored in the given index of the vector"""
-        try: assert index <= len(self.vector) and type(index) == int
+        try: assert index < len(self.vector) and type(index) == int
         except AssertionError:
             print("Index must be an integer less than or equal to the length of the list")
             return False
