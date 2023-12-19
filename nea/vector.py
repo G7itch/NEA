@@ -43,7 +43,7 @@ class Vector(object):
     def setElements(self) -> bool:
         """Provides console interface to set all of the elements of the vector"""
         print("\n")
-        for i in range(len(self.vector)):
+        for i in range(0,len(self.vector)):
             number = float(input(f"Enter value for index {i}: "))
             self.setElement(i,number)
         print("\n")
@@ -62,8 +62,9 @@ class Vector(object):
     def magnitude(self) -> float:
         """Returns the size of the vector using standard analytic geometry formula sqrt(a^2 + b^2...)"""
         total = 0
-        for i in range(len(self.vector)):
+        for i in range(0,len(self.vector)):
             total += (self.vector[i])**2
+            #print(total)
         return sqrt(total)
     
     def isUnit(self) -> bool:
@@ -87,7 +88,7 @@ class Vector(object):
             for count2, element2 in enumerate(other.vector):
                 i +=1
                 tensorproduct.setElement(i,element*element2)
-            return tensorproduct
+        return tensorproduct
 
     def __repr__(self) -> str:
         """Returns human friendly version of object using more traditional curved brackets"""

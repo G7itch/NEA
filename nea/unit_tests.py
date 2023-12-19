@@ -1,6 +1,6 @@
-from vector import *
+from cbit import *
 
-t = Vector(2)
 
-print(t.allZeros())
-t.setElement(0,1)
+d = Cbit(0)
+d.setElement(1,1)
+print(d.measure())

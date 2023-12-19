@@ -11,14 +11,18 @@ class Cbit(Vector):
            Init function creates either a Cbit vector or a tensor product if multiple bit are supplied."""
         
         self.Cbit = None
-        self.__sub = sub
-        if sub == None:
-            self.__sub = len("{0:b}".format(dirac)) #Preformatting to change sub before testing
+        self.__sub = sub #Preformatting to change sub before testing
+        try: assert type(dirac) == int
+        except AssertionError:
+            print("E: 'dirac' must be a positive integer")
+            exit(1)
 
+        if sub == None:
+            self.__sub = len("{0:b}".format(dirac))
         ####################### Error Checking ############################
         try: assert (type(self.__sub) == int and type(dirac) == int) and (self.__sub >= 0 and dirac >= 0)
         except AssertionError:
-            print("'Sub' and 'dirac' must be positive integeres")
+            print("'Sub' and 'dirac' must be positive integers")
             exit(1)
         
         try: assert self.__sub >= len("{0:b}".format(dirac))
@@ -57,12 +61,12 @@ class Cbit(Vector):
         """Sets the value at one index in the vector to the given value"""
         try: assert index <= len(self.Cbit.vector) and type(index) == int
         except AssertionError:
-            print("Index must be an integer less than or equal to the length of the list")
+            print("E: Index must be an integer less than or equal to the length of the list")
             return False
         if len(self.Cbit.vector) == 2: #If the length is 2 then it must be a standard bit not a tensorproduct
             try: assert value == 1 or value == 0
             except:
-                print("Value can only take 0 or 1") #Checks to see if the element youre trying to add is valid for the format of Cbits
+                print("E: Value can only take 0 or 1") #Checks to see if the element youre trying to add is valid for the format of Cbits
                 return False
         self.Cbit.vector[index] = value
         return True
