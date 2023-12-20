@@ -1,5 +1,5 @@
 from lexer import *
-from ast import AbstractSyntaxTree
+from abstract import AbstractSyntaxTree
 
 
 
