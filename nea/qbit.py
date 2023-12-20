@@ -88,7 +88,7 @@ class Qbit(Cbit):
         if len(self.Qbit.vector) == 2: #If the lenght is 2 then it must be a standard Qbit
             try: assert value <= 1 and value >= -1
             except:
-                print("Value can online take the range [-1,1]") #Checks to see if the element youre trying to add is a valid format
+                print("Value can only take the range [-1,1]") #Checks to see if the element youre trying to add is a valid format
                 return False
         self.Qbit.vector[index] = value
         return True
