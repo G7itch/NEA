@@ -1,4 +1,5 @@
 from qbit import *
 
 
-d = Qbit(1)
+d = Qbit(0)
+print(d._applygauss2d())
