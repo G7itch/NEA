@@ -37,7 +37,7 @@ class System():
         for point in self.points:
             tX = [X[i]-point.x for i in range(np.size(X))]
             tY = [Y[i]-point.y for i in range(np.size(Y))]
-            E = np.array([self.compute(i, tX, tY, point.size, point.tens) for i in range(size)], dtype=np.float)
+            E = np.array([self.compute(i, tX, tY, point.size, point.tens) for i in range(size)], dtype=float)
             E.shape = (u, v)
             V = V + E
         
