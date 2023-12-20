@@ -42,7 +42,6 @@ def mainGraphLoop(qbit,i):
 
 
 def main():
-    sys.tracebacklimit=0
     #####################Login to system#######################
     username = input("Enter your username or press enter to sign up: ")
     if username == "":
@@ -56,8 +55,8 @@ def main():
     inter = Interpreter(c)
     editor = CodeEditor(inter)
     system = System(8.85418782e-12, 0.04)
-    renderer = Renderer(system, 0.6, 0.6, 1.6, 20, 20)
-    renderer.system.addPoint(Point(-0.3, -0.3, 0.55, 10))
+    renderer = Renderer(system, 0.6, 0.6, 1.6, 40, 40)
+    renderer.system.addPoint(Point(-0.3, -0.3, 0.2, 5))
     os.system("cls")
     ###########################################################
     with warnings.catch_warnings(): #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
