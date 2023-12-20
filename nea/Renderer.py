@@ -32,8 +32,7 @@ class Renderer():
     
     def clear(self):
         # self.ax = plt.gca()
-        self.ax.patches = [] # clear lines streamplot
-        self.ax.collections = [] # clear arrowheads streamplot
+        self.ax.cla() # clear arrowheads streamplot
 
     def dfield(self):
         x = np.linspace(-self.XMAX, self.XMAX, self.rx)
