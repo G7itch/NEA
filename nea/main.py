@@ -13,6 +13,7 @@ import time
 import getpass
 import os
 import sys
+import traceback
 #########################################################
 #Lots of general vector functions are defined in the vector class and Cbit/Qbit will inherit these
 #Qbits inherits all the more specialised bit functions from Cbit, but overwrites some and adds others
@@ -59,7 +60,8 @@ def main():
     renderer.system.addPoint(Point(-0.3, -0.3, 0.2, 5))
     os.system("cls")
     ###########################################################
-    with warnings.catch_warnings(): #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
+    with warnings.catch_warnings():
+        #traceback.print_stack() #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
         mainGraphLoop(c,0)
         #renderer.launch() #not sure if this will loop without threading
         editor.mainloop()
