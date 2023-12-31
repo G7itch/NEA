@@ -3,7 +3,7 @@ from cbit import Cbit
 from math import sqrt
 from vector import Vector
 from login import Login
-from interface import CodeEditor
+from interface import CodeEditor, filemenu
 from interpreter import Interpreter
 from Renderer import *
 import matplotlib.pyplot as plt
@@ -44,26 +44,34 @@ def mainGraphLoop(qbit,i):
 
 def main():
     #####################Login to system#######################
+    print("  ___  ____  _")       
+    print(" / _ \/ ___|(_)_ __ ___") 
+    print("| | | \___ \| | '_ ` _ \ ")  
+    print("| |_| |___) | | | | | | |")  
+    print(" \__\_\____/|_|_| |_| |_|") 
+    print("\n\n")
     username = input("Enter your username or press enter to sign up: ")
     if username == "":
         a = Login()
     else:
         password = getpass.getpass(prompt="Enter your password: ")
         a = Login(username,password)
+    file_open = filemenu()
     ###########################################################
     ###########################Setup###########################
     c = Qbit(1)
     inter = Interpreter(c)
-    editor = CodeEditor(inter)
+    editor = CodeEditor(inter,file_open)
     system = System(8.85418782e-12, 0.04)
     renderer = Renderer(system, 0.6, 0.6, 1.6, 40, 40)
     renderer.system.addPoint(Point(-0.3, -0.3, 0.2, 5))
+    renderer.system.addPoint(Point(-0.3, -0.3, 0.2, -5))
     os.system("cls")
     ###########################################################
     with warnings.catch_warnings():
         #traceback.print_stack() #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
-        mainGraphLoop(c,0)
-        #renderer.launch() #not sure if this will loop without threading
+        #mainGraphLoop(c,0)
+        renderer.launch() #not sure if this will loop without threading
         editor.mainloop()
 
 

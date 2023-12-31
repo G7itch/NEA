@@ -1,5 +1,2 @@
-from qbit import *
+from Draggable import *
 
-
-d = Qbit(0)
-print(d._applygauss2d())

@@ -11,7 +11,7 @@ from interpreter import Interpreter
 
 class CodeEditor(tk.Tk):
 
-    def __init__(self,interpreter:object):
+    def __init__(self,interpreter:object,file_open=None):
         """Creates the editor interface that the user interacts with throughout the entire program"""
         super().__init__()
 
@@ -79,6 +79,9 @@ class CodeEditor(tk.Tk):
         cd.idprog  = re.compile(IDPROG, re.S)
         cd.tagdefs = {**cd.tagdefs, **TAGDEFS}
         ip.Percolator(self.text_widget).insertfilter(cd)
+
+        if file_open != None:
+            self.__openFile(file_name=file_open)
     ################################################################################
     #Note: syntax highlighting is based on the tkinter module used for idle itself 
 
@@ -104,10 +107,13 @@ class CodeEditor(tk.Tk):
         style.theme_use('azure')
         return style
 
-    def __openFile(self):
+    def __openFile(self,file_name=None):
         """Opens a file dialog to load a file into the code editor, updating title and content."""
-        self.__file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
- 
+        if file_name == None:
+            self.__file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+        else:
+            self.__file = file_name
+        
         if self.__file == "":
             self.__file = None
         else:
@@ -116,7 +122,10 @@ class CodeEditor(tk.Tk):
             file = open(self.__file,"r")
             self.text_widget.insert(1.0,file.read())
             file.close()
- 
+
+        recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
+        recents.append(str(os.path.abspath(self.__file)))
+        recents.close()
 
     def __cut(self):
         self.text_widget.event_generate("<<Cut>>")
@@ -144,6 +153,48 @@ class CodeEditor(tk.Tk):
             file = open(self.__file,"w")
             file.write(self.text_widget.get(1.0,END))
             file.close()
+        
+        recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
+        recents.append(str(os.path.abspath(self.__file)))
+        recents.close()    
 
     def __quitApplication(self):
         self.destroy()
+
+
+def filemenu():
+    os.system("cls")
+    file_open = None
+    print("  ___  ____  _")       
+    print(" / _ \/ ___|(_)_ __ ___") 
+    print("| | | \___ \| | '_ ` _ \ ")  
+    print("| |_| |___) | | | | | | |")  
+    print(" \__\_\____/|_|_| |_| |_|") 
+    print("\n\n")
+    print("[1] New file")
+    print("[2] Open file")
+    print("\n")
+    recentfile = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","r")
+    recentlist = []
+    for line in (recentfile.readlines() [-3:]):
+        recentlist.append(line.strip("\n"))
+    recentlist = set(recentlist)
+    recentlist = list(recentlist)
+    recentlist.reverse()      
+    for i in range(96,99):
+        print(f"[{i}]",recentlist[i%96])
+    print("\n")
+    print("[99] quit")
+    print("\n")
+    option = int(input("> "))
+
+    match option:
+        case 1: file_open = None
+        case 2: file_open = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+        case 96: file_open = recentlist[0]
+        case 97: file_open = recentlist[1]
+        case 98: file_open = recentlist[2]
+        case 99: exit(0)
+    
+    os.system("cls")
+    return file_open

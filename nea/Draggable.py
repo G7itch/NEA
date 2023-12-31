@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-class Draggable:
+class Draggable(object):
     lock = None # only one can be animated at a time
     def __init__(self, point, update, object):
         self.point = point
