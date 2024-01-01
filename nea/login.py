@@ -2,6 +2,7 @@ import sqlite3
 from hashlib import sha256
 from re import fullmatch
 import getpass
+from databasesetup import Setup
 
 class Login(object):
 
@@ -13,17 +14,16 @@ class Login(object):
         self.__authenticated = False
         
         first = False #For checking if it is the first time setup for the database
-        
         try: self.__conn = sqlite3.connect("file:master.db?mode=rw", uri=True) #If the database doesnt exist we need to do some extra stuff before registering
         except: self.__conn, first = sqlite3.connect("master.db"), True #Creates the database if it doesnt exist
-
+        
         self.__c = self.__conn.cursor() #Setup the cursor for shorter commands
 
         if first == True: #If we just created the database then we need to setup the table for user log in.
             self.__firsttime()
         elif not((username is None) and (password is None)): #If the user has supplied values for both username and password
-            try: assert self.__userlookup() #Try to lookup if the username exists
-            except: raise Exception("User doesn't exist") #If not close the program. This shouldn't be too much of a concern as this class will be called by the tkinter interface
+            #try: assert self.__userlookup() #Try to looku
+            #except: raise Exception("User doesn't exist") #If not close the program. This shouldn't be too much p if the username existsof a concern as this class will be called by the tkinter interface
             if self.__login(): #runs the login function
                 self.__authenticated = True #Change the authentication flag that allows other parts of the program to check if the user is logged in. Provides an easy way of avoiding errors later.
             else:
@@ -41,11 +41,12 @@ class Login(object):
         """First time setup for the user table in the database"""
         self.__c.execute('''CREATE TABLE users (userid INTEGER PRIMARY KEY, username UNIQUE NOT NULL, hash TEXT)''')
         self.__conn.commit() #Commits change, useful for testing and debugging as well as a generally safety precaution when modifying the database to allow for rollback
+        Setup()
         self.register() #Register the user
 
     def __userlookup(self) -> bool:
         """Looks up if the user is in the database already. We have to perform a comparison on the string literal result of a fetchall on a select statement to check if the user exists"""
-        return bool(str(self.__c.execute(f"SELECT username FROM users WHERE username='{self.__username}'").fetchall()) != "[(1,)]") #DUe to a quirk in how the sqlite select statment works: it doesnt return the results, it returns a cursor object
+        return bool(str(self.__c.execute(f"SELECT username FROM users WHERE username='{self.__username}'").fetchall()) == "[(1,)]") #DUe to a quirk in how the sqlite select statment works: it doesnt return the results, it returns a cursor object
     
     
     def __login(self): #Private function because it should only ever be used in context of the class instance

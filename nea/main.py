@@ -1,19 +1,12 @@
 from qbit import Qbit
-from cbit import Cbit
-from math import sqrt
-from vector import Vector
 from login import Login
 from interface import CodeEditor, filemenu
 from interpreter import Interpreter
 from Renderer import *
 import matplotlib.pyplot as plt
-from threading import Thread
 import warnings
-import time
 import getpass
 import os
-import sys
-import traceback
 #########################################################
 #Lots of general vector functions are defined in the vector class and Cbit/Qbit will inherit these
 #Qbits inherits all the more specialised bit functions from Cbit, but overwrites some and adds others

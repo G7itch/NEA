@@ -4,7 +4,6 @@ from math import exp
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.collections import PatchCollection
-import time
 
 class Qbit(Cbit):
 

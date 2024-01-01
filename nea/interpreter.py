@@ -26,4 +26,6 @@ class Interpreter(object):
         print(self.command_list)
         self.ast = AbstractSyntaxTree(self.command_list)
                     
-                    
+    def __giveaward(self):
+        """This function controls the logic of awarding achievments to the user."""
+        pass    
