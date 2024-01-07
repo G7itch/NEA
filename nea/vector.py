@@ -12,15 +12,6 @@ class Vector(object):
             exit(1)
         self.vector = [0] * size
 
-    def setElement(self, index:int, value:float) -> bool:
-        """Sets the value at one index in the vector to a given value"""
-        try: assert index < len(self.vector) and type(index) ==int
-        except AssertionError:
-            print("Index must be an integer less than or equal to the length of the list")
-            return False #Indicate failed execution
-        self.vector[index] = value
-        return True #Indicate succesful execution
-    
     def getElement(self,index:int) -> float:
         """Returns the value stored in the given index of the vector"""
         try: assert index < len(self.vector) and type(index) == int
@@ -29,7 +20,18 @@ class Vector(object):
             return False
         return self.vector[index]
     
+    def setElement(self, index:int, value:float) -> bool:
+        """Sets the value at one index in the vector to a given value"""
+        try: assert index < len(self.vector) and type(index) == int
+        except AssertionError:
+            print("Index must be an integer less than or equal to the length of the list")
+            return False #Indicate failed execution
+        self.vector[index] = value
+        return True #Indicate succesful execution
+
     def scalarMul(self,num:float) -> "Vector":
+        try: assert(type(num)==float or type(num)==int)
+        except AssertionError: return False
         """Performs scalar multiplication on a vector"""
         mulvec = Vector(len(self.vector)) #Creates a new vector object so can be used without overwriting underlying vector
         for count,element in enumerate(self.vector):
@@ -44,7 +46,7 @@ class Vector(object):
         """Provides console interface to set all of the elements of the vector"""
         print("\n")
         for i in range(0,len(self.vector)):
-            number = float(input(f"Enter value for index {i}: "))
+            number = input(f"Enter value for index {i}: ")
             self.setElement(i,number)
         print("\n")
         return True
