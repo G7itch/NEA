@@ -26,6 +26,10 @@ class Vector(object):
         except AssertionError:
             print("Index must be an integer less than or equal to the length of the list")
             return False #Indicate failed execution
+        try: assert type(value) == float or type(value) == int
+        except AssertionError:
+            print("Value must be numeric")
+            return False
         self.vector[index] = value
         return True #Indicate succesful execution
 
@@ -54,6 +58,10 @@ class Vector(object):
     def setN(self,n:float) -> bool:
         """Shorthand, sets every element of the vector to the same number"""
         size = len(self.vector)
+        try: assert type(n)==int or type(n)==float
+        except AssertionError:
+            print("'n' must be numeric")
+            return False
         self.vector = [n] * size
         return True
 
@@ -83,6 +91,8 @@ class Vector(object):
     
     def tensor(self,other: "Vector") -> "Vector":
         """Returns tensor product of two vectors"""
+        if not(isinstance(other,object)):
+            return False
         newsize = len(self.vector) * len(other.vector)
         tensorproduct = Vector(newsize)
         i = -1
