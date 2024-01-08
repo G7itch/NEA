@@ -22,7 +22,8 @@ class CodeEditor(tk.Tk):
         self.__thisEditMenu = Menu(self.__thisMenuBar, tearoff=0) 
         self.__file = None
         self.__interpreter = interpreter
-        
+        #if not(isinstance(interpreter,Interpreter)):
+        #    raise TypeError("Interpreter object is not valid")
         self.text_widget = tk.Text(self, wrap="word", undo=True,font=("Calibri",16))
         self.text_widget.pack(expand=True, fill="both")
         self.__thisScrollBar = Scrollbar(self.text_widget)  
@@ -79,8 +80,8 @@ class CodeEditor(tk.Tk):
         cd.idprog  = re.compile(IDPROG, re.S)
         cd.tagdefs = {**cd.tagdefs, **TAGDEFS}
         ip.Percolator(self.text_widget).insertfilter(cd)
-
-        if file_open != None:
+        
+        if file_open != None and type(file_open)==str:
             self.__openFile(file_name=file_open)
     ################################################################################
     #Note: syntax highlighting is based on the tkinter module used for idle itself 
@@ -107,7 +108,7 @@ class CodeEditor(tk.Tk):
         style.theme_use('azure')
         return style
 
-    def __openFile(self,file_name=None):
+    def __openFile(self,file_name=None) -> False | None:
         """Opens a file dialog to load a file into the code editor, updating title and content."""
         if file_name == None:
             self.__file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
@@ -117,14 +118,15 @@ class CodeEditor(tk.Tk):
         if self.__file == "":
             self.__file = None
         else:
-            self.title(os.path.basename(self.__file) + " - Code editor")
+            try: self.title(os.path.basename(self.__file) + " - Code editor")
+            except: return False
             self.text_widget.delete(1.0,END)
             file = open(self.__file,"r")
             self.text_widget.insert(1.0,file.read())
             file.close()
 
         recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
-        recents.append(str(os.path.abspath(self.__file)))
+        recents.append(str(os.path(self.__file)))
         recents.close()
 
     def __cut(self):
@@ -155,7 +157,7 @@ class CodeEditor(tk.Tk):
             file.close()
         
         recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
-        recents.append(str(os.path.abspath(self.__file)))
+        recents.append(str(os.path(self.__file)))
         recents.close()    
 
     def __quitApplication(self):

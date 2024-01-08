@@ -9,6 +9,9 @@ mpl.rcParams['toolbar'] = 'None'
 
 class Renderer():
     def __init__(self, system:object, XMAX:float, YMAX:float, density:float, rx:float, ry:float):
+        try: assert (type(XMAX)==float and type(YMAX)==float and type(density)==float and type(rx)==float and type(ry)==float)
+        except:
+            raise TypeError("Bad parameter type")
         self.system = system
         self.XMAX, self.YMAX = XMAX, YMAX
         self.density = density

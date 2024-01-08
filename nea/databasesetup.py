@@ -9,7 +9,7 @@ class Setup(object):
         self.__c.execute('''CREATE TABLE highscores (userid INTEGER, score INTEGER, FOREIGN KEY (userid) REFERENCES users (userid) )''')
         self.__c.execute('''CREATE TABLE challenges (challengeid INTEGER PRIMARY KEY, challengedesc TEXT, difficulty REAL, reward REAL)''')
         self.__conn.commit()
-        with open("achievments.json", "w") as achievments: #create and close file
+        with open("achievements.json", "w") as achievements: #create and close file
             pass
         self.__populateDB()
         self.__conn.close()
