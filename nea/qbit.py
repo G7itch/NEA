@@ -31,12 +31,22 @@ class Qbit(Cbit):
 
     def _softmax(self,vector:list) -> list: #Protected function, I am not sure what classes need to refer to this so better safe than sorry
         """Performs the softmax normalisation on a list of values. https://en.wikipedia.org/wiki/Softmax_function"""
+        try: assert ((type(vector) == list or isinstance(vector,object)) and all((type(ele)==int or type(ele)==float) for ele in vector))
+        except AssertionError:
+            print("\nE: Softmax needs a numeric array as an input\n")
+            return False
         e = [exp(ele) for ele in vector]
         return [item/sum(e) for item in e] #(e)^x_i/sum(e^x)
         #Maybe only let it apply to 0 values and everything previously seen
     
     def _normalise(self,vector:list,maxprime:float) -> list:
         """Min-max normalisation of given list"""
+        try: assert ((type(vector) == list or isinstance(vector,object)) and all((type(ele)==int or type(ele)==float) for ele in vector))
+        except AssertionError:
+            print("\nE: Normalise needs a numeric array as an input\n")
+            return False
+        if not(isinstance(maxprime,float) or isinstance(maxprime,int)):
+            return False
         min, max = 0, 1 #predefined because we know we are using probabilities
         return [(maxprime*(value-max)+maxprime) for value in vector] #generates new list normalised with min 0 and specified max
 
@@ -50,6 +60,9 @@ class Qbit(Cbit):
 
     def _applygauss2d(self,array:list,n:int) -> bool:
         """Applies gaussian noise (centred on the standard normal Z distribution) to a 2d array"""
+        try: assert (type(array)==list and type(n)==int) and all((type(ele)==int or type(ele)==float) for ele in vector)
+        except AssertionError:
+            return False
         mean = 0
         stddv = 100/(2**n)
         noise = np.random.normal(loc=mean,scale=stddv,size=(len(array),len(array[0]))).tolist()
@@ -68,6 +81,8 @@ class Qbit(Cbit):
 
     def diffuse(self,step:int) -> list:
         """Diffuse the probability grid over time. A representation of uncertaincy in our visualisation"""
+        if not(isinstance(step,int)):
+            return False
         newarray = []
         self.probability = self._applygauss2d(self.probability,step)
         for i in range(len(self.probability)):

@@ -83,7 +83,7 @@ class Lexer(object):
         tokens one-by-one. It is meant to be used through iterating.
     """
  
-    def __init__(self, rules, case_sensitive=True, omit_whitespace=True):
+    def __init__(self, rules:iter, case_sensitive=True, omit_whitespace=True):
         """ Set up the lexical scanner. Build and compile the regular expression
             and prepare the whitespace searcher.
         """
@@ -91,12 +91,16 @@ class Lexer(object):
         self.omit_whitespace = omit_whitespace
         self.case_sensitive = case_sensitive
         parts = []
+        if not isinstance(rules,list):
+            raise TypeError("'Rules' needs to be an iterable")
+        if not isinstance(case_sensitive,True):
+            raise TypeError("Case flag needs to be a bool value due to python interpretation of strings")
         for name, rule in rules:
             if not isinstance(rule, str):
                 rule, callback = rule
                 self._callbacks[name] = callback
             parts.append("(?P<%s>%s)" % (name, rule))
-        if self.case_sensitive:
+        if self.case_sensitive: #This line fires for any 'truthy' values in python, which is not ideal
             flags = re.M
         else:
             flags = re.M|re.I
@@ -106,7 +110,11 @@ class Lexer(object):
     def scan(self, inp: str) -> iter:
         """Return a scanner built for matching through the `inp` field. 
             The scanner that it returns is built well for iterating."""
-        return _InputScanner(self, inp)
+        if type(inp)==str:
+            return _InputScanner(self, inp)
+        else:
+            inp = str(inp)
+            return _InputScanner(self, inp)           
 
 
 def stmnt_callback(scanner, token) -> None:

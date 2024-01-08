@@ -57,6 +57,7 @@ class Cbit(Vector):
             
             self.Cbit = tensorprod
 
+    @override
     def setElement(self, index:int, value:float) -> bool:
         """Sets the value at one index in the vector to the given value"""
         try: assert index <= len(self.Cbit.vector) and type(index) == int

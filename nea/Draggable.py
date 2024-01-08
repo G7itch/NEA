@@ -3,6 +3,7 @@ import matplotlib.patches as patches
 
 class Draggable(object):
     lock = None # only one can be animated at a time
+
     def __init__(self, point, update, object):
         self.point = point
         self.press = None
@@ -17,55 +18,49 @@ class Draggable(object):
         self.cidmotion = self.point.figure.canvas.mpl_connect('motion_notify_event', self.on_motion)
 
     def on_press(self, event):
-        if event.inaxes != self.point.axes: return
-        if Draggable.lock is not None: return
+        if event.inaxes != self.point.axes:
+            return None
+        if Draggable.lock is not None:
+            return None
         contains, attrd = self.point.contains(event)
-        if not contains: return
+        if not contains:
+            return None
         self.press = (self.point.center), event.xdata, event.ydata
         Draggable.lock = self
-
         # draw everything but the selected rectangle and store the pixel buffer
         canvas = self.point.figure.canvas
         axes = self.point.axes
         self.point.set_animated(True)
         canvas.draw()
         self.background = canvas.copy_from_bbox(self.point.axes.bbox)
+        axes.draw_artist(self.point)        #redraw just the rectangle
+        canvas.blit(axes.bbox)        # blit just the redrawn area
 
-        # now redraw just the rectangle
-        axes.draw_artist(self.point)
-
-        # and blit just the redrawn area
-        canvas.blit(axes.bbox)
-
-    def on_motion(self, event):
+    def on_motion(self, event) -> None:
         if Draggable.lock is not self:
-            return
-        if event.inaxes != self.point.axes: return
+            return None
+        if event.inaxes != self.point.axes:
+            return None
         self.point.center, xpress, ypress = self.press
         dx = event.xdata - xpress
         dy = event.ydata - ypress
         self.point.center = (self.point.center[0]+dx, self.point.center[1]+dy)
-
         canvas = self.point.figure.canvas
         axes = self.point.axes
         # restore the background region
         canvas.restore_region(self.background)
-
         # redraw just the current rectangle
         axes.draw_artist(self.point)
-
         # blit just the redrawn area
         canvas.blit(axes.bbox)
-        
         self.object.x = self.point.center[0]
         self.object.y = self.point.center[1]
 
 
-    def on_release(self, event):
+    def on_release(self, event) -> None:
         'on release we reset the press data'
         if Draggable.lock is not self:
-            return
-
+            return None
         self.press = None
         Draggable.lock = None
 
