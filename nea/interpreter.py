@@ -8,6 +8,8 @@ class Interpreter(object):
     def __init__(self,graphqbit):
         self.lex = Lexer(rules, case_sensitive=True)
         self.command_list = []
+        self.USER_VARS = {}
+
     
     def interpret(self,line:str):
         for token in self.lex.scan(line):
@@ -15,6 +17,7 @@ class Interpreter(object):
         #print(self.command_list)
         #next step is to filter suppliments and split objects
         for element in self.command_list:
+            print(element)
             match element:
                 case "SUPPLIMENT"|"END_STMNT":
                     self.command_list.remove(element)
@@ -29,3 +32,6 @@ class Interpreter(object):
     def __giveaward(self):
         """This function controls the logic of awarding achievments to the user."""
         pass    
+
+c = Interpreter("stromg")
+c.interpret("1+1=2;")
