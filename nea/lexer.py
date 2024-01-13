@@ -93,7 +93,7 @@ class Lexer(object):
         parts = []
         if not isinstance(rules,list):
             raise TypeError("'Rules' needs to be an iterable")
-        if not isinstance(case_sensitive,True):
+        if not isinstance(case_sensitive,bool):
             raise TypeError("Case flag needs to be a bool value due to python interpretation of strings")
         for name, rule in rules:
             if not isinstance(rule, str):

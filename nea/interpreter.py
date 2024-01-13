@@ -6,9 +6,10 @@ from abstract import AbstractSyntaxTree
 class Interpreter(object):
     
     def __init__(self,graphqbit):
-        self.lex = Lexer(rules, case_sensitive=True)
+        self.lex = Lexer(rules)
         self.command_list = []
-        self.USER_VARS = {}
+        self.user_vars = {}
+        self.__temp_vars = {}
 
     
     def interpret(self,line:str):
@@ -17,9 +18,8 @@ class Interpreter(object):
         #print(self.command_list)
         #next step is to filter suppliments and split objects
         for element in self.command_list:
-            print(element)
-            match element:
-                case "SUPPLIMENT"|"END_STMNT":
+            match element[0]:
+                case "SUPPLIMENT"|"END_STMNT": #These just make writing easier, they don't impact code at all
                     self.command_list.remove(element)
                 case "OBJECT":
                     pass
@@ -34,4 +34,4 @@ class Interpreter(object):
         pass    
 
 c = Interpreter("stromg")
-c.interpret("1+1=2;")
+c.interpret(":gate: 1+1=2;")
