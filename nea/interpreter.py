@@ -18,19 +18,21 @@ class Interpreter(object):
             self.command_list.append(token)
         #print(self.command_list)
         #next step is to filter suppliments and split objects
-        for element in self.command_list:
+        for count,element in enumerate(self.command_list):
             match element[0]:
                 case "SUPPLIMENT"|"END_STMNT": #These just make writing easier, they don't impact code at all
                     self.command_list.remove(element)
                 case "OBJECT":
-                    pass
-                    #split up objects into dictionarys
+                    parameters = (((element[1].split("("))[1]).strip(")")).split(",") #creates a list of all of the paramters that the object has
+                    function = (element[1].split("("))[0]
+                    self.command_list[count] = (function, parameters)
                 case _:
                     pass
-        print(self.command_list)
+        #print(self.command_list)
         self.__setvars()
+        print(self.command_list)
         self.ast = AbstractSyntaxTree(self.command_list)
-                    
+
     def __giveaward(self):
         """This function controls the logic of awarding achievments to the user."""
         pass    
@@ -45,11 +47,11 @@ class Interpreter(object):
                     identifier = ''.join(random.choice(letters) for i in range(20))
                 self.__temp_vars[identifier] = id(identifier)
                 self.command_list[element] = id(identifier)
-        print(self.command_list)
+        #print(self.command_list)
                     
 
 
 
 
 c = Interpreter("stromg")
-c.interpret(":gate: 1+1=2;")
+c.interpret("had() :gate: 1+1=2 had(1)")

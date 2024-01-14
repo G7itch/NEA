@@ -126,7 +126,7 @@ def stmnt_callback(scanner, token) -> None:
 ######################################################
 rules = [
     ("SUPPLIMENT", r"^([a-zA-Z]+:)|(:[a-zA-Z]+:)"),
-    ("OBJECT", r"[a-zA-Z_]\w*\([a-zA-Z_]\w*\)"),
+    ("OBJECT", r"[a-zA-Z_]\w*\(([a-zA-Z_0-9]\w*|,)*\)"),
     ("IDENTIFIER", r"[a-zA-Z_]\w*"),
     ("OPERATOR",   r"\+|\-|\\|\*|\="),
     ("DIGIT",      r"[0-9]+(\.[0-9]+)?"),
