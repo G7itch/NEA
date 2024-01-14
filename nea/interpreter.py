@@ -1,5 +1,6 @@
 from lexer import *
 from abstract import AbstractSyntaxTree
+import random, string
 
 
 
@@ -27,11 +28,28 @@ class Interpreter(object):
                 case _:
                     pass
         print(self.command_list)
+        self.__setvars()
         self.ast = AbstractSyntaxTree(self.command_list)
                     
     def __giveaward(self):
         """This function controls the logic of awarding achievments to the user."""
         pass    
+
+    def __setvars(self) -> list:
+        """Sets the command list to include vaariable identifiers and locations - this helps for syntax parsing when put into the AST"""
+        letters = string.ascii_letters
+        for element in range(len(self.command_list)):
+            if self.command_list[element][0] == "LITERAL" or self.command_list[element][0] == "DIGIT":
+                identifier = ''.join(random.choice(letters) for i in range(20))
+                while identifier in self.__temp_vars:
+                    identifier = ''.join(random.choice(letters) for i in range(20))
+                self.__temp_vars[identifier] = id(identifier)
+                self.command_list[element] = id(identifier)
+        print(self.command_list)
+                    
+
+
+
 
 c = Interpreter("stromg")
 c.interpret(":gate: 1+1=2;")

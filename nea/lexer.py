@@ -130,6 +130,7 @@ rules = [
     ("IDENTIFIER", r"[a-zA-Z_]\w*"),
     ("OPERATOR",   r"\+|\-|\\|\*|\="),
     ("DIGIT",      r"[0-9]+(\.[0-9]+)?"),
+    ("LITERAL",     r"\"\w*\""),
     ("END_STMNT",  (";", stmnt_callback)), 
     ]
 
