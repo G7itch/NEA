@@ -25,6 +25,12 @@ class Interpreter(object):
                 case "OBJECT":
                     parameters = (((element[1].split("("))[1]).strip(")")).split(",") #creates a list of all of the paramters that the object has
                     function = (element[1].split("("))[0]
+                    for element in range(len(parameters)):
+                        identifier = ''.join(random.choice(letters) for i in range(20))
+                            while identifier in self.__temp_vars:
+                                identifier = ''.join(random.choice(letters) for i in range(20))
+                        self.__temp_vars[identifier] = id(identifier)
+                        parameters[element] = id(identifier)
                     self.command_list[count] = (function, parameters)
                 case _:
                     pass
