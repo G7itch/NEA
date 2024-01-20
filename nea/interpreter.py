@@ -14,6 +14,7 @@ class Interpreter(object):
 
     
     def interpret(self,line:str):
+        letters = string.ascii_letters
         for token in self.lex.scan(line):
             self.command_list.append(token)
         #print(self.command_list)
@@ -27,7 +28,7 @@ class Interpreter(object):
                     function = (element[1].split("("))[0]
                     for element in range(len(parameters)):
                         identifier = ''.join(random.choice(letters) for i in range(20))
-                            while identifier in self.__temp_vars:
+                        while identifier in self.__temp_vars:
                                 identifier = ''.join(random.choice(letters) for i in range(20))
                         self.__temp_vars[identifier] = id(identifier)
                         parameters[element] = id(identifier)

@@ -32,7 +32,7 @@ class AbstractSyntaxTree(object):
     def __init__(self,parsed:iter):
         self.__commands = parsed
         self.syntaxtree = Tree()
-                
+               
         
 
     
