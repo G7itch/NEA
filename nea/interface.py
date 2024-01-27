@@ -108,7 +108,7 @@ class CodeEditor(tk.Tk):
         style.theme_use('azure')
         return style
 
-    def __openFile(self,file_name=None) -> False | None:
+    def __openFile(self,file_name=None):
         """Opens a file dialog to load a file into the code editor, updating title and content."""
         if file_name == None:
             self.__file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])

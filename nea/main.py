@@ -68,4 +68,5 @@ def main():
         editor.mainloop()
 
 
-main()
+if __name__ == "__main__":
+    main()

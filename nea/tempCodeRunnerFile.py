@@ -1,0 +1,1 @@
+self.__c = self.__conn.cursor()
