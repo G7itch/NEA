@@ -6,7 +6,8 @@ import re
 from datetime import datetime
 from plyer import notification
 import json
-
+import gc
+from gates import *
 
 class Interpreter(object):
     
@@ -16,10 +17,12 @@ class Interpreter(object):
         self.user_vars = {}
         self.__temp_vars = {}
         self.__command_string = ""
+        self.__graphinstance = graphqbit
 
     
     def interpret(self,line:str):
         letters = string.ascii_letters
+        self.__temp_vars = {}
         self.__command_string = ""
         for token in self.lex.scan(line):
             self.command_list.append(token)
@@ -36,7 +39,7 @@ class Interpreter(object):
                         identifier = ''.join(random.choice(letters) for i in range(20))
                         while identifier in self.__temp_vars:
                                 identifier = ''.join(random.choice(letters) for i in range(20))
-                        self.__temp_vars[identifier] = id(identifier)
+                        self.__temp_vars[identifier] = parameters[element]
                         parameters[element] = id(identifier)
                     self.command_list[count] = (function, parameters)
                 case _:
@@ -44,6 +47,13 @@ class Interpreter(object):
         self.__setvars()
         self.__giveaward()
         self.ast = AbstractSyntaxTree(self.command_list)
+
+        ############## Free up memory from temporary variables that we will not use again #################
+        for element in self.__temp_vars:
+            del element #allocate null value to memory address
+        gc.collect() #use the builtin garbage collector
+        ###################################################################################################
+
 
     def __giveaward(self):
         """This function controls the logic of awarding achievments to the user."""
@@ -88,7 +98,9 @@ class Interpreter(object):
                 identifier = ''.join(random.choice(letters) for i in range(20))
                 while identifier in self.__temp_vars:
                     identifier = ''.join(random.choice(letters) for i in range(20))
-                self.__temp_vars[identifier] = id(identifier)
+                self.__temp_vars[identifier] = self.command_list[element][1]
                 self.command_list[element] = id(identifier)
                     
 
+c = Interpreter("t")
+c.interpret("1+1")

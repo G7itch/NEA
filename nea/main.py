@@ -63,8 +63,8 @@ def main():
     ###########################################################
     with warnings.catch_warnings():
         #traceback.print_stack() #Matplotlib likes to give suggestions and prints these to the terminal, so we are suppressing them
-        #mainGraphLoop(c,0)
-        renderer.launch() #not sure if this will loop without threading
+        mainGraphLoop(c,0)
+        #renderer.launch() #not sure if this will loop without threading
         editor.mainloop()
 
 
