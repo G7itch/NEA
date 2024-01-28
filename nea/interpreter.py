@@ -8,6 +8,7 @@ from plyer import notification
 import json
 import gc
 from gates import *
+import ctypes
 
 class Interpreter(object):
     
@@ -22,6 +23,7 @@ class Interpreter(object):
     
     def interpret(self,line:str):
         letters = string.ascii_letters
+        objs = False
         self.__temp_vars = {}
         self.__command_string = ""
         for token in self.lex.scan(line):
@@ -33,6 +35,7 @@ class Interpreter(object):
                 case "SUPPLIMENT"|"END_STMNT": #These just make writing easier, they don't impact code at all
                     self.command_list.remove(element)
                 case "OBJECT":
+                    objs = True
                     parameters = (((element[1].split("("))[1]).strip(")")).split(",") #creates a list of all of the paramters that the object has
                     function = (element[1].split("("))[0]
                     for element in range(len(parameters)):
@@ -46,7 +49,14 @@ class Interpreter(object):
                     pass
         self.__setvars()
         self.__giveaward()
-        self.ast = AbstractSyntaxTree(self.command_list)
+        if not objs:
+            self.ast = AbstractSyntaxTree(self.command_list,self.__temp_vars)
+        else:
+            objects = [function for function in self.command_list if type(function)==tuple]
+            for function in objects:
+                params = [self.__temp_vars[ctypes.cast(param, ctypes.py_object).value] for param in function[1]]
+                function = str(function[0]) + "(" + ",".join(map(str,params)) + ")"
+                exec(function)
 
         ############## Free up memory from temporary variables that we will not use again #################
         for element in self.__temp_vars:
@@ -101,6 +111,11 @@ class Interpreter(object):
                 self.__temp_vars[identifier] = self.command_list[element][1]
                 self.command_list[element] = id(identifier)
                     
+def test(): #testing code for functions
+    print("hello wolrd")
+
+def test2(hi): #testing code for functions with parameters being parsed to interpret
+    print("hi,",hi)
 
 c = Interpreter("t")
-c.interpret("1+1")
+c.interpret("")

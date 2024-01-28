@@ -1,18 +1,26 @@
-def hadamard(qbit):
+def H(index):
     pass
 
-def x(qbit,qbit2):
+def SWAP(index,index2):
     pass
 
-def y():
+def CNOT(index1,index2):
     pass
 
-def z(qbit):
+def Y(qbit):
     pass
 
-def entangle():
+def Z(qbit):
     pass
 
-def teleport():
+def Entangle(qbit,qbit2):
     pass
 
+def Teleport(qbit1,qbit2):
+    pass
+
+def Measurement(index):
+    pass
+
+def Initialise(name,values):
+    pass

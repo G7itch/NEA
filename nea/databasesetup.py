@@ -17,7 +17,7 @@ class Setup(object):
 
     def __populateDB(self):
         challenges = {
-            0 : ["Entangle two particles", 1.0, 10,r"\w*(ENTANGLE|E|e|entangle)\((\w+,\w+)\)\w*/gm"],
+            0 : ["Entangle two particles", 1.0, 10,r"\w*(ENTANGLE|E|e|entangle|Entangle)\((\w+,\w+)\)\w*/gm"],
             1 : ["Use a hadamard gate for the first time",0.5,5,r"\w*(hadamard|h|H|HADAMARAD)\((\w+|(\w*,\w+)+)\)\w*"],
             2 : ["Teleport a particle",2.5,50,None],
         }

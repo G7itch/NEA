@@ -78,10 +78,11 @@ class Node:
 
 class AbstractSyntaxTree(object):
 
-    def __init__(self,parsed:iter):
+    def __init__(self,parsed:iter,vars):
         self.__commandtree = []
         self.__parsed = parsed
         self.__commandlist = []
+        self.var_lookup = vars
         operators = []
         for element in self.__parsed:
             if type(element) == tuple:
@@ -110,20 +111,20 @@ class AbstractSyntaxTree(object):
                 self.__commandtree.append([-1,element,-1])
         #print(self.__commandtree)
         data = []
-        
         expression = self.in_order_traversal(operators[0],data) # can then use eval on this expression or exec if it is a function call
         for index,reference in enumerate(expression):
             if type(reference) == int:
                 value = ctypes.cast(reference, ctypes.py_object).value
                 #realvalue = ctypes.cast(value, ctypes.py_object).value #This line of code breaks everything and i have no idea why but if you uncomment it python installation breaks
-                expression[index] = value
+                actualvalue = self.var_lookup[value]
+                expression[index] = actualvalue
         
         expression = " ".join(map(str,expression))
-
+        #print(expression)
         if '=' in expression:
-           eval(expression) #evaluation of string
+           exec(expression) #evaluation of string
         else:
-           print(exec(expression)) #execution of string
+           print(eval(expression)) #execution of string
 
     def in_order_traversal(self, current_index,datastream):
         if current_index != -1:
