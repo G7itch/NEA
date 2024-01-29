@@ -5,6 +5,7 @@ class Draggable(object):
     lock = None # only one can be animated at a time
 
     def __init__(self, point, update, object):
+        """Sets up movement for objects in matplotlib window"""
         self.point = point
         self.press = None
         self.background = None
@@ -12,12 +13,12 @@ class Draggable(object):
         self.object = object
 
     def connect(self):
-        'connect to all the events we need'
+        """connect to all the events we need"""
         self.cidpress = self.point.figure.canvas.mpl_connect('button_press_event', self.on_press)
         self.cidrelease = self.point.figure.canvas.mpl_connect('button_release_event', self.on_release)
         self.cidmotion = self.point.figure.canvas.mpl_connect('motion_notify_event', self.on_motion)
 
-    def on_press(self, event):
+    def on_press(self, event) -> None:
         if event.inaxes != self.point.axes:
             return None
         if Draggable.lock is not None:
@@ -27,8 +28,7 @@ class Draggable(object):
             return None
         self.press = (self.point.center), event.xdata, event.ydata
         Draggable.lock = self
-        # draw everything but the selected rectangle and store the pixel buffer
-        canvas = self.point.figure.canvas
+        canvas = self.point.figure.canvas        # draw everything but the selected rectangle and store the pixel buffer
         axes = self.point.axes
         self.point.set_animated(True)
         canvas.draw()
@@ -58,7 +58,7 @@ class Draggable(object):
 
 
     def on_release(self, event) -> None:
-        'on release we reset the press data'
+        """on release we reset the press data"""
         if Draggable.lock is not self:
             return None
         self.press = None
@@ -76,7 +76,7 @@ class Draggable(object):
 
 
     def disconnect(self):
-        'disconnect all the stored connection ids'
+        """disconnect all the stored connection ids"""
         self.point.figure.canvas.mpl_disconnect(self.cidpress)
         self.point.figure.canvas.mpl_disconnect(self.cidrelease)
         self.point.figure.canvas.mpl_disconnect(self.cidmotion)
