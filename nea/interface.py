@@ -10,11 +10,12 @@ import idlelib.percolator as ip
 from interpreter import Interpreter
 
 class CodeEditor(tk.Tk):
-
+    
     def __init__(self,interpreter:object,file_open=None):
         """Creates the editor interface that the user interacts with throughout the entire program"""
         super().__init__()
-
+        
+        self.recents = r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt"
         self.title("Code Editor")
         self.darkstyle() #Sets the editor to dark mode
         self.__thisMenuBar = Menu(self)
@@ -125,7 +126,7 @@ class CodeEditor(tk.Tk):
             self.text_widget.insert(1.0,file.read())
             file.close()
 
-        recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
+        recents = open(self.recents,"a")
         recents.append(str(os.path(self.__file)))
         recents.close()
 
@@ -156,7 +157,7 @@ class CodeEditor(tk.Tk):
             file.write(self.text_widget.get(1.0,END))
             file.close()
         
-        recents = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","a")
+        recents = open(self.recents,"a")
         recents.append(str(os.path(self.__file)))
         recents.close()    
 
@@ -178,7 +179,7 @@ def filemenu():
     print("\n")
     recentfile = open(r"C:\Users\OSINT\OneDrive\Documents\GitHub\NEA\recents.txt","r")
     recentlist = []
-    for line in (recentfile.readlines() [-3:]):
+    for line in (recentfile.readlines() [-3:]): #we only want the 3 most recent, which are at the end of the file
         recentlist.append(line.strip("\n"))
     recentlist = set(recentlist)
     recentlist = list(recentlist)
