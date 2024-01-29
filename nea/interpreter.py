@@ -25,7 +25,7 @@ class Interpreter(object):
         letters = string.ascii_letters
         objs = False
         self.__temp_vars = {}
-        self.__command_string = ""
+        self.__command_string = "" #This is used for regexing against to check for achievements
         for token in self.lex.scan(line):
             self.command_list.append(token)
             self.__command_string += token[1]
@@ -54,8 +54,8 @@ class Interpreter(object):
         else:
             objects = [function for function in self.command_list if type(function)==tuple]
             for function in objects:
-                params = [self.__temp_vars[ctypes.cast(param, ctypes.py_object).value] for param in function[1]]
-                function = str(function[0]) + "(" + ",".join(map(str,params)) + ")"
+                params = [self.__temp_vars[ctypes.cast(param, ctypes.py_object).value] for param in function[1]] #This line makes a list of (references -> identifiers -> values) and stores it in the params variable
+                function = str(function[0]) + "(" + ",".join(map(str,params)) + ")" #String formatting for execution
                 exec(function)
 
         ############## Free up memory from temporary variables that we will not use again #################
@@ -117,5 +117,5 @@ def test(): #testing code for functions
 def test2(hi): #testing code for functions with parameters being parsed to interpret
     print("hi,",hi)
 
-c = Interpreter("t")
-c.interpret("")
+#c = Interpreter("t")
+#c.interpret("")
