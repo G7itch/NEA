@@ -1,16 +1,51 @@
 from qbit import Qbit
 from enum import Enum
-from math import sqrt
+from math import sqrt, e, pi
 
 ##################################################################################
 class Gates(Enum):
+    """Creates a read only class of constant gates that can be used in function calls"""
     HADAMARD = [[1/sqrt(2),1/sqrt(2)],
                 [1/sqrt(2),-1/sqrt(2)]]
 
     PAULI_X = [[0,1],
                [1,0]]
 
-    PAULI_Y = 
+    PAULI_Y = [[0,-1j],
+               [1j,0]]
+
+    PAULI_Z = [[1,0],
+               [0,-1]]
+
+    PHASE = [[1,0],
+             [0,1j]]
+
+    T = [[1,0],
+         [0,e**(1j*pi/4)]]
+
+    CNOT = [[1,0,0,0],
+            [0,1,0,0],
+            [0,0,0,1],
+            [0,0,1,0]]
+
+    CZ = [[1,0,0,0],
+          [0,1,0,0],
+          [0,0,1,0],
+          [0,0,0,-1]]
+    
+    SWAP = [[1,0,0,0],
+            [0,0,1,0],
+            [0,1,0,0],
+            [0,0,0,1]]
+
+    TOFFOLI = [[1,0,0,0,0,0,0,0],
+               [0,1,0,0,0,0,0,0],
+               [0,0,1,0,0,0,0,0],
+               [0,0,0,1,0,0,0,0],
+               [0,0,0,0,1,0,0,0],
+               [0,0,0,0,0,1,0,0],
+               [0,0,0,0,0,0,0,1],
+               [0,0,0,0,0,0,1,0]]
 
     
 
@@ -20,22 +55,23 @@ class Gates(Enum):
 
 def H(index):
     """creates an equal superposition state if given a computational basis state"""
-    
+    gate = Gates["HADAMARD"].value
 
 def X(index):
     """The Pauli-X gate is the quantum equivalent of the NOT gate for classical computers with respect to the standard basis"""
-    pass
+    gate = Gates["PAULI_X"].value
 
 def Y(index):
-    pass
+    """Uses the builtin complex type"""
+    gate = Gates["PAULI_Y"].value
 
 def Z(index):
     """Pauli Z is sometimes called phase-flip."""
-    pass
+    gate = Gates["PAULI_Z"].value
 
 def P(index):
     """This is equivalent to tracing a horizontal circle (a line of constant latitude), or a rotation about the z-axis on the Bloch sphere"""
-    pass
+    gate = Gates["PHASE"].value
 
 ######################################################################################
 #################################     Algorithms  ####################################
@@ -62,7 +98,10 @@ def Initialise(name,values):
 
 def applyGate(gate,bit,*args):
     """Performs matrix multiplication on gates and qbits"""
-    qbits = [bit] + list(*args)
-
+    qbits = [bit] + list(args)
+    if len(qbits) == 1:
+        qbit = qbits[0]
+    else:
+        pass
     
     
