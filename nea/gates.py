@@ -47,8 +47,18 @@ class Gates(Enum):
                [0,0,0,0,0,0,0,1],
                [0,0,0,0,0,0,1,0]]
 
-    
+#Below is another way you can create a constant class
+#It uses the metaclasses and a dundermethod to block any attempt at writing to a varaible
+#I chose to go with the top implementation as it produced cleaner code. Although this is more pythonic    
+class ImmutableConstantsMeta(type):
+    """Another implementation of a constant class"""
+    def __setattr__(cls, key, value):
+        raise AttributeError("Cannot modify immutable constants")
 
+class ImmutableConstants(metaclass=ImmutableConstantsMeta):
+    CONSTANT_1 = None
+    CONSTANT_2 = None
+    CONSTANT_3 = None
 
 ##################################################################################
 ###########################     Standard gates     ###############################

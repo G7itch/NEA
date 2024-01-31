@@ -18,7 +18,7 @@ class Interpreter(object):
         self.user_vars = {}
         self.__temp_vars = {}
         self.__command_string = ""
-        self.__graphinstance = graphqbit
+        self.__graph_instance = graphqbit
 
     
     def interpret(self,line:str):
