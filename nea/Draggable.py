@@ -4,13 +4,13 @@ import matplotlib.patches as patches
 class Draggable(object):
     lock = None # only one can be animated at a time
 
-    def __init__(self, point, update, object):
+    def __init__(self, point, update, object_selected):
         """Sets up movement for objects in matplotlib window"""
         self.point = point
         self.press = None
         self.background = None
         self.update = update
-        self.object = object
+        self.object = object_selected
 
     def connect(self):
         """connect to all the events we need"""
