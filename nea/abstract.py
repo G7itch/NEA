@@ -1,7 +1,8 @@
 import ctypes
 
 class Tree(object):
-
+    """Recusrive generation generic tree object"""#
+    
     def __init__(self, name='root', children=None):
         "Generic tree node."
         self.name = name
@@ -29,7 +30,7 @@ example_tree = Tree('*', [Tree('1'),
 #print(t.children)
 
 class Node:
-   
+   """Recursive generation binary tree object"""
    def __init__(self, data):
       self.left = None
       self.right = None
@@ -78,12 +79,14 @@ class Node:
 
 class AbstractSyntaxTree(object):
 
-    def __init__(self,parsed:iter,vars):
+    def __init__(self,parsed:iter,variables):
+        """Abstract syntax tree data structure constructed from linked lists"""
         self.__commandtree = []
         self.__parsed = parsed
         self.__commandlist = []
-        self.var_lookup = vars
+        self.var_lookup = variables
         operators = []
+
         for element in self.__parsed:
             if type(element) == tuple:
                 if type(element[1]) == list:
@@ -95,7 +98,11 @@ class AbstractSyntaxTree(object):
                    operators.append(len(self.__commandlist)-1)
             else:
                self.__commandlist.append(element)
-        
+
+        #####################################################################
+        ## In the future, it might be worth using the dataclass function, _post_init__ to run this code 
+        #####################################################################
+
         i = 0
         for index,element in enumerate(self.__commandlist):
             if type(element) == str:
@@ -109,9 +116,10 @@ class AbstractSyntaxTree(object):
                 self.__commandtree.append([left,data,right])
             else:
                 self.__commandtree.append([-1,element,-1])
-        #print(self.__commandtree)
+
         data = []
         expression = self.in_order_traversal(operators[0],data) # can then use eval on this expression or exec if it is a function call
+
         for index,reference in enumerate(expression):
             if type(reference) == int:
                 value = ctypes.cast(reference, ctypes.py_object).value
@@ -120,7 +128,7 @@ class AbstractSyntaxTree(object):
                 expression[index] = actualvalue
         
         expression = " ".join(map(str,expression))
-        #print(expression)
+
         if '=' in expression:
            exec(expression) #evaluation of string
         else:
@@ -131,11 +139,11 @@ class AbstractSyntaxTree(object):
             left_index = self.__commandtree[current_index][0]
             data = self.__commandtree[current_index][1]
             right_index = self.__commandtree[current_index][2]
-        # Traverse left subtree
+            # Traverse left subtree
             self.in_order_traversal(left_index,datastream)
-        # Process current node
+            # Process current node
             datastream.append(data) 
-        # Traverse right subtree
+            # Traverse right subtree
             self.in_order_traversal(right_index,datastream)
         return datastream
 
