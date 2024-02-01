@@ -29,7 +29,7 @@ class Interpreter(object):
 
     def interpret(self, line: str) -> None:
         """
-        Interpret the lexical parsed input from the user and send it for execution
+        Interpret the lexical-parsed input from the user and send it for execution
         @param line: The input line
         @return: None
         """
@@ -42,7 +42,7 @@ class Interpreter(object):
             self.command_list.append(token)
             self.__command_string += token[1]
 
-        # next step is to filter supplements and split objects
+        # the next step is to filter supplements and split objects
         for count, element in enumerate(self.command_list):
             match element[0]:
                 case "SUPPLIMENT" | "END_STMNT":  # These just make writing easier, they don't impact code at all

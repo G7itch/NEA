@@ -1,41 +1,44 @@
-from typing import List, Any
-
-from Point import *
-from Wall import *
-import numpy as np
 from math import sqrt
+
+import numpy as np
 
 
 class System(object):
+    """"""
 
     def __init__(self, epsilon, gamma):
+        """"""
         self.points = []  # Array of Points
         self.walls = []  # Array of Walls
         self.epsilon = epsilon  # Permittivity
         self.gamma = gamma  # Conductivity
 
     def addPoint(self, point: object) -> None:
+        """"""
         self.points.append(point)
 
     def addWall(self, wall):
+        """"""
         self.walls.append(wall)
 
     def compute(self, i, X, Y, R, U):
+        """"""
         I = (U * self.gamma * 2 * np.pi)
-        Sigma = (I * self.epsilon) / (self.gamma * 4 * np.pi * pow(R, 2))
+        sigma = (I * self.epsilon) / (self.gamma * 4 * np.pi * pow(R, 2))
 
         dist = sqrt(pow(Y[i], 2) + pow(X[i], 2))  # Euclidean distance
 
-        if (dist < R):
-            return ((Sigma * pow(R, 2)) / self.epsilon) * (1 / R)  # Constant when we are inside the point
+        if dist < R:
+            return ((sigma * pow(R, 2)) / self.epsilon) * (1 / R)  # Constant when we are inside the point
         else:
-            return ((Sigma * pow(R, 2)) / self.epsilon) * (1 / dist)
+            return ((sigma * pow(R, 2)) / self.epsilon) * (1 / dist)
 
     def field(self, X, Y) -> iter:
+        """"""
         u, v = X.shape
         size = np.size(X)
-        X.shape = (size)
-        Y.shape = (size)
+        X.shape = size
+        Y.shape = size
         V = np.zeros((u, v))
 
         for point in self.points:

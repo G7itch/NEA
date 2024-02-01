@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-#class Point(object):
+
+# class Point(object):
 #    def __init__(self, x, y, size, tens):
 #        self.x    :float = x          # Position X (m)
 #        self.y    :float = y          # Position Y (m)

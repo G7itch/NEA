@@ -8,10 +8,10 @@ class Cbit(Vector):
     def __init__(self, dirac: int, sub: int | None = None) -> None:
         """
            Creates either a Cbit vector or a tensor product if multiple bits are supplied.
-           
            @param dirac: Refers to the integer that would be shown in the symbol used in dirac notation (e.g. |0>) 
            @param sub: Refers to the number of bits (elements) to be used in the vector form.
            It is the subscript of dirac notation, by default, it is the minimum number required
+           @return: None
         """
         self.Cbit = None
         self.__sub = sub  # Preformatting to change sub before testing
