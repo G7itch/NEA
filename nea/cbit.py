@@ -13,11 +13,10 @@ class Cbit(Vector):
            @param sub: Refers to the number of bits (elements) to be used in the vector form.
            It is the subscript of dirac notation, by default, it is the minimum number required
         """
-
         self.Cbit = None
         self.__sub = sub  # Preformatting to change sub before testing
         try:
-            assert type(dirac) == int
+            assert isinstance(type(dirac), int)
         except AssertionError:
             print("E: 'dirac' must be a positive integer")
             exit(1)
@@ -25,9 +24,9 @@ class Cbit(Vector):
         if sub is None:
             self.__sub = len("{0:b}".format(dirac))
 
-        ####################### Error Checking ############################
+        # Error Checking
         try:
-            assert (type(self.__sub) == int and type(dirac) == int) and (self.__sub >= 0 and dirac >= 0)
+            assert (type(self.__sub) is int and type(dirac) is int) and (self.__sub >= 0 and dirac >= 0)
         except AssertionError:
             print("'Sub' and 'dirac' must be positive integers")
             exit(1)
@@ -48,6 +47,7 @@ class Cbit(Vector):
 
         # If there are multiple bits, rather than make a cbit vector, calculate their tensor product
         if self.__sub == 1:
+            super().__init__(size=2)
             self.Cbit = Vector(2)
             self.Cbit.setElement(abs(0 - int(self.__dirac)), 1)
         else:
@@ -79,7 +79,7 @@ class Cbit(Vector):
         @return: Boolean for function exit status
         """
         try:
-            assert index <= len(self.Cbit.vector) and type(index) == int
+            assert index <= len(self.Cbit.vector) and type(index) is int
         except AssertionError:
             print("E: Index must be an integer less than or equal to the length of the list")
             return False
@@ -94,7 +94,7 @@ class Cbit(Vector):
         self.Cbit.vector[index] = value
         return True
 
-    def measure(self) -> int | False:
+    def measure(self) -> int | bool:
         """
         Checks the second position in a 1x2 vector to evaluate the classical value – this is because in vector form
         this bit can be used to identify the value

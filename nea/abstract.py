@@ -122,8 +122,8 @@ class AbstractSyntaxTree(object):
         operators = []
 
         for element in self.__parsed:
-            if type(element) == tuple:
-                if type(element[1]) == list:
+            if type(element) is tuple:
+                if type(element[1]) is list:
                     self.__commandlist.append(element[1])
                     operators.append(len(self.__commandlist) - 1)
                     self.__commandlist.append(element[0])
@@ -139,7 +139,7 @@ class AbstractSyntaxTree(object):
 
         i = 0
         for index, element in enumerate(self.__commandlist):
-            if type(element) == str:
+            if type(element) is str:
                 i += 1
                 left = index - 1
                 data = element
@@ -156,7 +156,7 @@ class AbstractSyntaxTree(object):
         # can then use eval on this expression or exec if it is a function call
 
         for index, reference in enumerate(expression):
-            if type(reference) == int:
+            if type(reference) is int:
                 value = ctypes.cast(reference, ctypes.py_object).value
                 # real_value = ctypes.cast(value, ctypes.py_object).value #This line of code breaks everything and I
                 # have no idea why but if you uncomment it python installation breaks

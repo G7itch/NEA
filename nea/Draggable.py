@@ -1,7 +1,3 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
-
 class Draggable(object):
     """
     Sets up movement for objects in a matplotlib window
@@ -22,6 +18,9 @@ class Draggable(object):
         self.background = None
         self.update = update
         self.object = object_selected
+        self.cidpress = None
+        self.cidrelease = None
+        self.cidmotion = None
 
     # noinspection PyAttributeOutsideInit
     def connect(self) -> None:

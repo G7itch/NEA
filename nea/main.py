@@ -53,7 +53,7 @@ def main():
     ###########################################################
     ###########################Setup###########################
     c = Qbit(1)
-    inter = Interpreter(c)
+    inter = Interpreter()
     editor = CodeEditor(inter,file_open)
     system = System(8.85418782e-12, 0.04)
     renderer = Renderer(system, 0.6, 0.6, 1.6, 40, 40)

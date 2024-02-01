@@ -23,7 +23,7 @@ class Setup(object):
             '''CREATE TABLE challenges (challengeid INTEGER PRIMARY KEY, challengedesc TEXT, difficulty REAL, 
             reward REAL, regex TEXT)''')
         self.__conn.commit()
-        with open("achievements.json", "w") as achievements:  # create and close file
+        with open("achievements.json", "w"):  # create and close file
             pass
         self.__populate_db()
         self.__conn.close()

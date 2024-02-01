@@ -57,7 +57,14 @@ class Gates(Enum):
 class ImmutableConstantsMeta(type):
     """Another implementation of a constant class"""
 
-    def __setattr__(cls, key, value):
+    def __setattr__(cls, key, value) -> None:
+        """
+        Overrides the class setter so changes cannot be made to elements in child classes
+        @param key: Key of the attribute being modified
+        @param value: Value the attribute is being modified to
+        @return: None
+        @raise AttributeError: Cannot modify immutable constants
+        """
         raise AttributeError("Cannot modify immutable constants")
 
 
@@ -68,9 +75,9 @@ class ImmutableConstants(metaclass=ImmutableConstantsMeta):
     CONSTANT_3 = None
 
 
-##################################################################################
-###########################     Standard gates     ###############################
+# Standard gates
 
+# noinspection PyPep8Naming
 def H(qbit: Qbit) -> None:
     """
     creates an equal superposition state if given a computational basis state
@@ -80,6 +87,7 @@ def H(qbit: Qbit) -> None:
     gate = Gates["HADAMARD"].value
 
 
+# noinspection PyPep8Naming
 def X(qbit: Qbit) -> None:
     """
     The Pauli-X gate is the quantum equivalent of the NOT gate for classical computers with respect to the standard
@@ -90,6 +98,7 @@ def X(qbit: Qbit) -> None:
     gate = Gates["PAULI_X"].value
 
 
+# noinspection PyPep8Naming
 def Y(qbit: Qbit) -> None:
     """
     Uses the builtin complex type
@@ -99,6 +108,7 @@ def Y(qbit: Qbit) -> None:
     gate = Gates["PAULI_Y"].value
 
 
+# noinspection PyPep8Naming
 def Z(qbit: Qbit) -> None:
     """
     Pauli Z is sometimes called phase-flip.
@@ -108,6 +118,7 @@ def Z(qbit: Qbit) -> None:
     gate = Gates["PAULI_Z"].value
 
 
+# noinspection PyPep8Naming
 def P(qbit: Qbit) -> None:
     """
     This is equivalent to tracing a horizontal circle (a line of constant latitude), or a rotation about the z-axis
@@ -118,9 +129,9 @@ def P(qbit: Qbit) -> None:
     gate = Gates["PHASE"].value
 
 
-######################################################################################
-#################################     Algorithms  ####################################
+# Algorithms
 
+# noinspection PyPep8Naming
 def Entangle(qbit: Qbit, qbit2: Qbit) -> None:
     """
     A complex combination of single gates that entangles two qbits, such that the measurement of one determines the
@@ -132,6 +143,7 @@ def Entangle(qbit: Qbit, qbit2: Qbit) -> None:
     pass
 
 
+# noinspection PyPep8Naming
 def Teleport(qbit: Qbit, qbit2: Qbit) -> None:
     """
     A complex combination of unary gates that transforms the state of one qbit to another,
@@ -142,27 +154,35 @@ def Teleport(qbit: Qbit, qbit2: Qbit) -> None:
     pass
 
 
-#####################################################################################
-###############################     Procedures    ###################################
+# Procedures
 
-def Measurement(qbit: Qbit):
-    """A function that measures the state of the qbit.
+# noinspection PyPep8Naming
+def Measurement(qbit: Qbit) -> None:
+    """
+    A function that measures the state of the qbit.
     This function is used over each instance measure function
-    because it can be parsed straight into the diagram tool"""
+    because it can be parsed straight into the diagram tool
+    @param qbit: The Qbit object being measured
+    @return: None
+    """
     pass
 
 
-def Initialise(name, values):
-    """This function is used over the __init__ dunder method because it allows for more control over different
-    instances.
-    It can also be parsed into the diagram tool"""
+# noinspection PyPep8Naming
+def Initialise(name: str, values: list) -> None:
+    """
+    This function is used over the __init__ dunder method because it allows for more control over different
+    instances. It can also be parsed into the diagram tool
+    @param name: The identifier of the qbit to be created
+    @param values: The values the qbit should take
+    @return: None
+    """
     pass
 
 
-#####################################################################################
-############################        General     #####################################
+# General
 
-def applyGate(gate, bit, *args):
+def applyGate(gate: Gates, bit: Qbit, *args) -> None:
     """
     Performs matrix multiplication on gates and qbits
     @param gate: The gate being used
