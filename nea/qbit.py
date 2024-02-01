@@ -58,7 +58,7 @@ class Qbit(Cbit):
     #            prettygrid[i][j] = float(round(self.probability[i][j],3))*100
     #    return prettygrid
 
-    def _applygauss2d(self,array:list,n:int) -> bool:
+    def _applygauss2d(self,array:list,n:int) -> list:
         """Applies gaussian noise (centred on the standard normal Z distribution) to a 2d array"""
         try: assert (type(array)==list and type(n)==int) and all((type(ele)==int or type(ele)==float) for ele in vector)
         except AssertionError:
