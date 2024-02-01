@@ -79,7 +79,7 @@ class _InputScanner(object):
  
 class Lexer(object):
     """ A lexical scanner. It takes in an input and a set of rules based
-        on reqular expressions. It then scans the input and returns the
+        on regular expressions. It then scans the input and returns the
         tokens one-by-one. It is meant to be used through iterating.
     """
  
