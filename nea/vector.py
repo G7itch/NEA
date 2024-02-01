@@ -34,9 +34,9 @@ class Vector(object):
         return True #Indicate succesful execution
 
     def scalarMul(self,num:float) -> "Vector":
+        """Performs scalar multiplication on a vector"""
         try: assert(type(num)==float or type(num)==int)
         except AssertionError: return False
-        """Performs scalar multiplication on a vector"""
         mulvec = Vector(len(self.vector)) #Creates a new vector object so can be used without overwriting underlying vector
         for count,element in enumerate(self.vector):
             mulvec.setElement(count,num*element)
