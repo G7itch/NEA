@@ -72,7 +72,8 @@ class Cbit(Vector):
 
     # @override
     def setElement(self, index: int, value: float) -> bool:
-        """Sets the value at one index in the vector to the given value
+        """
+        Sets the value at one index in the vector to the given value
         @param index: The index to insert into
         @param value: The value to insert
         @return: Boolean for function exit status
@@ -118,7 +119,8 @@ class Cbit(Vector):
         return None
 
     def __repr__(self) -> str:
-        """Returns a friendly version of the cbit object using typical notation
+        """
+        Returns a friendly version of the cbit object using typical notation
         @return: String representation of vector
         """
         return "(" + str(self.Cbit.vector)[1:-1] + ")"

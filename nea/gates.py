@@ -53,7 +53,7 @@ class Gates(Enum):
 # Below is another way you can create a constant class
 # It uses the metaclasses and an undermentioned to block any attempt at writing to a variable
 # I chose to go with the top implementation as it produced cleaner code.
-# Although this is more pythonic
+# Although this is more pythonic.
 class ImmutableConstantsMeta(type):
     """Another implementation of a constant class"""
 

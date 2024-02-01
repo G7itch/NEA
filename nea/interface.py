@@ -82,7 +82,7 @@ class CodeEditor(tk.Tk):
         cd.tagdefs = {**cd.tagdefs, **TAGDEFS}
         ip.Percolator(self.text_widget).insertfilter(cd)
 
-        if file_open != None and type(file_open) == str:
+        if file_open is not None and type(file_open) == str:
             self.__openFile(file_name=file_open)
 
     ################################################################################

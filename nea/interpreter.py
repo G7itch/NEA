@@ -29,7 +29,7 @@ class Interpreter(object):
         for token in self.lex.scan(line):
             self.command_list.append(token)
             self.__command_string += token[1]
-        #next step is to filter suppliments and split objects
+        #next step is to filter supplements and split objects
         for count,element in enumerate(self.command_list):
             match element[0]:
                 case "SUPPLIMENT"|"END_STMNT": #These just make writing easier, they don't impact code at all
