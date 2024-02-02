@@ -3,9 +3,9 @@ from dataclasses import dataclass
 
 # class Point(object):
 #    def __init__(self, x, y, size, tens):
-#        self.x    :float = x          # Position X (m)
-#        self.y    :float = y          # Position Y (m)
-#        self.size :float = size    # Rayon      (m)
+#        self.x    :float = x          # Position x_pos (m)
+#        self.y    :float = y          # Position y_pos (m)
+#        self.size :float = size    # Ray      (m)
 #        self.tens :float = tens    # Tension    (V)
 #        self.__string = str(self.x) + ", " + str(self.y) + ", " + str(self.size) + ", " + str(self.tens)
 

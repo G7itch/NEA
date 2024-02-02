@@ -49,7 +49,7 @@ class Cbit(Vector):
         if self.__sub == 1:
             super().__init__(size=2)
             self.Cbit = Vector(2)
-            self.Cbit.setElement(abs(0 - int(self.__dirac)), 1)
+            self.Cbit.setElement(int(abs(0 - int(self.__dirac))), 1)
         else:
             self.__dirac.split()
             tensor_prod = None
@@ -58,11 +58,11 @@ class Cbit(Vector):
                 if count == 0:
                     continue
                 element = Vector(2)
-                element.setElement(abs(0 - ele), 1)
+                element.setElement(int(abs(0 - ele)), 1)
                 # Makes the vector (0,1) if the element is 1 and (1,0) if the element is 0
                 if tensor_prod is None:
                     last_element = Vector(2)
-                    last_element.setElement(abs(0 - int(self.__dirac[count - 1])), 1)
+                    last_element.setElement(int(abs(0 - int(self.__dirac[count - 1]))), 1)
                     # Adjusts the vector in the same way as the last comment
                 else:
                     last_element = tensor_prod

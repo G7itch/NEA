@@ -11,7 +11,7 @@ mpl.rcParams['toolbar'] = 'None'
 # noinspection PyPep8Naming
 class Renderer(object):
     """The renderer object is used to render meshes onto the matplotlib window"""
-    def __init__(self, system: System, XMAX: int, YMAX: int, density: float, rx: int, ry: int) -> None:
+    def __init__(self, system: System, XMAX: float, YMAX: float, density: float, rx: int, ry: int) -> None:
         """
         Initialises the renderer object
         @param system: References the system to render on
@@ -23,7 +23,7 @@ class Renderer(object):
         @return: None
         """
         try:
-            assert (type(XMAX) is int and type(YMAX) is int and type(density) is float)
+            assert (type(XMAX) is float and type(YMAX) is float and type(density) is float)
         except AssertionError:
             raise TypeError("Bad parameter type")
 

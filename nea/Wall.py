@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-#class Wall(object):
+
+# class Wall(object):
 #
 #    def __init__(self, x1, y1, x2, y2):
 #        """Setup boundary points"""
@@ -10,9 +11,9 @@ from dataclasses import dataclass
 #        self.y2 :float = y2
 #        self.__string = str(self.x1) + ", " + str(self.y1) + ", " + str(self.x2) + ", " + str(self.y2)
 
- #   def __repr__(self) -> str:
- #       """Returns object in machine readable form"""
- #       return self.__string
+#    def __repr__(self) -> str:
+#       """Returns object in machine-readable form"""
+#       return self.__string
 
 
 @dataclass

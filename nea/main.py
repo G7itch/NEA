@@ -1,12 +1,13 @@
-from qbit import Qbit
-from login import Login
-from interface import CodeEditor, filemenu
-from interpreter import Interpreter
-from Renderer import *
-import matplotlib.pyplot as plt
-import warnings
 import getpass
 import os
+import warnings
+
+from Point import Point
+from Renderer import *
+from interface import CodeEditor, filemenu
+from interpreter import Interpreter
+from login import Login
+from qbit import Qbit
 
 
 # Lots of general vector functions are defined in the vector
