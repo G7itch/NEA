@@ -2,8 +2,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
-from Draggable import *
-from System import *
+from draggable import *
+from system import *
 
 mpl.rcParams['toolbar'] = 'None'
 

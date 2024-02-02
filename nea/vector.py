@@ -1,4 +1,5 @@
 from math import sqrt
+from typing import Self
 
 
 class Vector(object):
@@ -54,7 +55,7 @@ class Vector(object):
         self.vector[index] = value
         return True  # Indicate successful execution
 
-    def scalarMul(self, num: float) -> 'Vector' | bool:
+    def scalarMul(self, num: float) -> Self | bool:
         """
         Performs scalar multiplication on a vector
         @param num: The scalar to multiply by
@@ -143,7 +144,7 @@ class Vector(object):
             unit_vec.setElement(int(count), ele / mag)
         return unit_vec
 
-    def tensor(self, other: 'Vector') -> 'Vector' | bool:
+    def tensor(self, other: 'Vector') -> Self | bool:
         """
         Returns tensor product of two vectors
         @return: The tensor product of two vectors, else False

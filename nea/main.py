@@ -2,8 +2,8 @@ import getpass
 import os
 import warnings
 
-from Point import Point
-from Renderer import *
+from point import Point
+from renderer import *
 from interface import CodeEditor, filemenu
 from interpreter import Interpreter
 from login import Login
