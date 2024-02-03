@@ -79,7 +79,7 @@ class Cbit(Vector):
         @return: Boolean for function exit status
         """
         try:
-            assert index <= len(self.Cbit.vector) and type(index) is int
+            assert index <= len(self.Cbit.vector)-1 and type(index) is int
         except AssertionError:
             print("E: Index must be an integer less than or equal to the length of the list")
             return False

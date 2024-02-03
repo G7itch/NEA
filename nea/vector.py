@@ -132,7 +132,7 @@ class Vector(object):
         """
         return self.magnitude() == 1
 
-    def unit(self) -> 'Vector':
+    def unit(self) -> bool | Self:
         """
         Returns a new vector instance set to be the unit vector of the existing instance
         @return: The new vector instance
@@ -140,6 +140,8 @@ class Vector(object):
         size = len(self.vector)
         unit_vec = Vector(size)  # create a new instance to not overwrite the existing case
         mag = self.magnitude()
+        if mag == 0:
+            return False
         for count, ele in enumerate(self.vector):
             unit_vec.setElement(int(count), ele / mag)
         return unit_vec

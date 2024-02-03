@@ -1,11 +1,12 @@
 import getpass
 import os
 import warnings
+from memory_profiler import profile
 
+from interpreter import Interpreter
 from point import Point
 from renderer import *
 from interface import CodeEditor, filemenu
-from interpreter import Interpreter
 from login import Login
 from qbit import Qbit
 
@@ -49,6 +50,7 @@ def mainGraphLoop(qbit: Qbit, step: int) -> None:
         step += 1
 
 
+@profile()
 def main() -> None:
     """
     The Main function of the program, enables all other code to run

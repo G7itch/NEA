@@ -2,10 +2,15 @@ import ctypes
 import gc
 import json
 import random
+import shutil
 import sqlite3
 import string
 from datetime import datetime
 
+import requests
+from bs4 import BeautifulSoup
+from matplotlib import image as mpimg
+from matplotlib import pyplot as plt
 from plyer import notification
 
 from abstract import AbstractSyntaxTree
@@ -65,15 +70,45 @@ class Interpreter(object):
         self.__setvars()
         self.__giveaward()
 
+        url = "https://quantikz.krastanov.org/?circuit="
+
         if not objs:
             self.ast = AbstractSyntaxTree(self.command_list, self.__temp_vars)
         else:
             objects = [function for function in self.command_list if type(function) is tuple]
+            format_objects = []
             for function in objects:
                 params = [self.__temp_vars[ctypes.cast(param, ctypes.py_object).value] for param in function[1]]
                 # This line makes a list of (references -> identifiers -> values) and stores it in the params variable
                 function = str(function[0]) + "(" + ",".join(map(str, params)) + ")"  # String formatting for execution
+                format_objects.append(function)
                 exec(function)
+
+            # structure request
+            url += str(format_objects)
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "html.parser")
+
+            # find image
+            image_links = soup.find_all("a", class_='entry-featured-image-url')
+            image_data = []
+            for link in image_links:
+                image_tag = link.findChildren("img")
+                image_data.append((image_tag[0]["src"], image_tag[0]["alt"]))
+            image = image_data[0]
+
+            # download image
+            response = requests.get(image[0], stream=True)
+            real_name = ''.join(e for e in image[1] if e.isalnum())
+            file = open("./images_bs/{}.jpg".format(real_name), 'wb')
+            response.raw.decode_content = True
+            shutil.copyfileobj(response.raw, file)
+            del response
+
+            # display image
+            image = mpimg.imread("./images_bs/{}.jpg".format(real_name))
+            plt.imshow(image)
+            plt.show()
 
         # Free up memory from temporary variables that we will not use again
         # noinspection PyUnusedLocal

@@ -80,7 +80,7 @@ class Qbit(Cbit):
         if not (isinstance(maxprime, float) or isinstance(maxprime, int)):
             return False
 
-        return [(maxprime * (value - max) + maxprime) for value in vector]
+        return [((value-min(vector)) * maxprime / (max(vector)-min(vector))) for value in vector]
         # generates a new list normalised with min 0 and specified max
 
     # def prettify(self):
@@ -101,7 +101,7 @@ class Qbit(Cbit):
         """
         try:
             assert ((type(array) is list and type(step) is int) and
-                    all((type(ele) is int or type(ele) is float) for ele in array))
+                    all((type(ele) is int or type(ele) is float) for innerlist in array for ele in innerlist))
         except AssertionError:
             return False
 

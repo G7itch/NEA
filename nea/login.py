@@ -18,7 +18,6 @@ class Login(object):
         self.__password = password
         self.__userid = None
         self.__authenticated = False
-
         first = False  # For checking if it is the first time setup for the database
         try:
             self.__conn = sqlite3.connect("file:master.db?mode=rw", uri=True)
