@@ -1,12 +1,13 @@
 from enum import Enum
 from math import sqrt, e, pi
+from random import randint
 
 from qbit import Qbit
 
 
 ##################################################################################
 class Gates(Enum):
-    """Creates a read only class of constant gates that can be used in function calls"""
+    """Creates a read-only class of constant gates that can be used in function calls"""
     HADAMARD = [[1 / sqrt(2), 1 / sqrt(2)],
                 [1 / sqrt(2), -1 / sqrt(2)]]
 
@@ -78,86 +79,143 @@ class ImmutableConstants(metaclass=ImmutableConstantsMeta):
 # Standard gates
 
 # noinspection PyPep8Naming
-def H(qbit: Qbit) -> None:
+def H(qbit: Qbit) -> Qbit:
     """
     creates an equal superposition state if given a computational basis state
     @param qbit: Qbit object being acted on
-    @return: None
+    @return: qbit
     """
     gate = Gates["HADAMARD"].value
+    qbit = matrixMultiplication(gate, qbit)
+    qbit.probability = [[0 for _ in range(11)] for _ in range(11)]
+    for i in range(2):
+        x = randint(0, 11)
+        y = randint(0, 11)
+        qbit.probability[x][y] = 0.5
+    return qbit
 
 
 # noinspection PyPep8Naming
-def X(qbit: Qbit) -> None:
+def X(qbit: Qbit) -> Qbit:
     """
     The Pauli-X gate is the quantum equivalent of the NOT gate for classical computers with respect to the standard
     basis
     @param qbit: The Qbit object being acted on
-    @return: None
+    @return: qbit
     """
     gate = Gates["PAULI_X"].value
+    qbit = matrixMultiplication(gate, qbit)
+    return qbit
 
 
 # noinspection PyPep8Naming
-def Y(qbit: Qbit) -> None:
+def Y(qbit: Qbit) -> Qbit:
     """
     Uses the builtin complex type
     @param qbit: Qbit object being acted on
-    @return: None
+    @return: qbit
     """
     gate = Gates["PAULI_Y"].value
+    qbit = matrixMultiplication(gate, qbit)
+    return qbit
 
 
 # noinspection PyPep8Naming
-def Z(qbit: Qbit) -> None:
+def Z(qbit: Qbit) -> Qbit:
     """
     Pauli Z is sometimes called phase-flip.
     @param qbit: Qbit object being acted on
-    @return: None
+    @return: qbit
     """
     gate = Gates["PAULI_Z"].value
+    qbit = matrixMultiplication(gate, qbit)
+    return qbit
 
 
 # noinspection PyPep8Naming
-def P(qbit: Qbit) -> None:
+def P(qbit: Qbit) -> Qbit:
     """
     This is equivalent to tracing a horizontal circle (a line of constant latitude), or a rotation about the z-axis
     on the Bloch sphere
     @param qbit: Qbit object being acted on
-    @return: None
+    @return: qbit
     """
     gate = Gates["PHASE"].value
+    qbit = matrixMultiplication(gate, qbit)
+    return qbit
+
+
+def CNOT(control: Qbit, target: Qbit) -> Qbit:
+    """
+    This is equivalent to a controlled NOT gate
+    @param control: The control qbit
+    @param target: The target qbit
+    @return: the target qbit after any changes
+    """
+    if control.vector[1] == 0:
+        return target
+    else:
+        qbit2 = X(target)
+    return qbit2
+
+
+def CZ(control: Qbit, target: Qbit) -> Qbit:
+    """
+    This is equivalent to a controlled NOT gate
+    @param control: The control qbit
+    @param target: The target qbit
+    @return: the target qbit after any changes
+    """
+    if control.vector[1] == 0:
+        return target
+    else:
+        qbit2 = Z(target)
+    return qbit2
 
 
 # Algorithms
 
 # noinspection PyPep8Naming
-def Entangle(qbit: Qbit, qbit2: Qbit) -> None:
+def Entangle(qbit: Qbit, qbit2: Qbit) -> Qbit | bool:
     """
     A complex combination of single gates that entangles two qbits, such that the measurement of one determines the
     measurement of the other.
     @param qbit: The Qbit object being acted on
     @param qbit2: The Qbit object being acted on
-    @return: None
+    @return: Entangled qbits
     """
-    pass
+    qbit.vector = [1, 0]
+    qbit2.vector = [1, 0]
+    qbit = H(qbit)
+    qbit2 = CNOT(qbit, qbit2)
+    return qbit.tensor(qbit2)
 
 
 # noinspection PyPep8Naming
-def Teleport(qbit: Qbit, qbit2: Qbit) -> None:
+def Teleport(qbit: Qbit, qbit2: Qbit) -> Qbit:
     """
     A complex combination of unary gates that transforms the state of one qbit to another,
     @param qbit: The first Qbit object being acted on
     @param qbit2: The second Qbit object being acted on
     @return: None
     """
-    pass
+    temp_qbit = Qbit(0)
+    temp_qbit = H(temp_qbit)
+    qbit2 = CNOT(temp_qbit, qbit2)
+    temp_qbit = CNOT(qbit, temp_qbit)
+    qbit = H(qbit)
+    Measurement(temp_qbit)
+    qbit = Measurement(qbit)
+    qbit2 = CNOT(temp_qbit, qbit2)
+    qbit2 = CZ(qbit, qbit2)
+    qbit2 = Measurement(qbit2)
+    return qbit2
 
 
 # Procedures
 
 # noinspection PyPep8Naming
-def Measurement(qbit: Qbit) -> None:
+def Measurement(qbit: Qbit) -> Qbit:
     """
     A function that measures the state of the qbit.
     This function is used over each instance measure function
@@ -165,7 +223,8 @@ def Measurement(qbit: Qbit) -> None:
     @param qbit: The Qbit object being measured
     @return: None
     """
-    pass
+    print(qbit.measure())
+    return qbit.measure()
 
 
 # noinspection PyPep8Naming
@@ -177,20 +236,11 @@ def Initialise(name: str, values: list) -> None:
     @param values: The values the qbit should take
     @return: None
     """
-    pass
+    locals()[name] = Qbit(1)
 
 
-# General
-
-def applyGate(gate: Gates, bit: Qbit, *args) -> None:
-    """
-    Performs matrix multiplication on gates and qbits
-    @param gate: The gate being used
-    @param bit: The Qbit object being applied to
-    @param args: Extra qbit objects for gates needing multiple inputs
-    """
-    qbits = [bit] + list(args)
-    if len(qbits) == 1:
-        qbit = qbits[0]
-    else:
-        pass
+def matrixMultiplication(gate: list[list[float]], bit: Qbit) -> Qbit:
+    bit.vector = [[sum(a * b for a, b in zip(A_row, B_col)) for B_col in zip(*bit.vector)]
+                  for A_row in gate]
+    bit.vector = [x for y in bit.vector for x in y]
+    return bit

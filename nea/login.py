@@ -132,6 +132,23 @@ class Login(object):
         self.__conn.commit()
         return True  # verify function ran correctly
 
+    def update_password(self):
+        self.__password = getpass.getpass("Enter the password you want to use for this account: ")
+        while not self.__validPassword():  # Check if the password meets every requirement
+            self.__password = getpass.getpass(
+                "Please enter a different password, Check it meets all the requirements (8 characters, at least one "
+                "uppercase letter, lowercase letter and number must be present): ")
+
+        pass_hash = sha256(
+            self.__password.encode()).hexdigest()
+        # human and processing friendly string version of password pass_hash in hexadecimal
+        self.__c.execute(f"""UPDATE users SET hash={pass_hash} WHERE userid='{self.getuserid()}'""")
+        self.__conn.commit()
+
+    def delete_user(self):
+        self.__c.execute(f"""DELETE FROM users WHERE userid='{self.getuserid()}'""")
+        self.__conn.commit()
+
     def getuserid(self) -> int:
         """
         Returns the userid of the currently logged-in user, or None if there isn't one

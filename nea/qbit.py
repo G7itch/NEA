@@ -1,6 +1,6 @@
 from math import exp
 from random import choices, randint
-from typing import override
+from typing import override, Self
 
 import numpy as np
 
@@ -28,7 +28,7 @@ class Qbit(Cbit):
         # self.prettygrid = self.prettify()
         # self.probprint()
 
-    def measure(self) -> int | bool:
+    def measure(self) -> Self | bool:
         """
         'Measures' the Qbits state using the probabilistic definition of quantum bits
         @return: Weighted random collapsed probability, else False
@@ -39,7 +39,9 @@ class Qbit(Cbit):
             bits = [0, 1]
             collapse = int(choices(bits, weights=(self.Qbit.vector[0] ** 2, self.Qbit.vector[1] ** 2), k=1)[0])
             # Qbit vectors are probabilities rather than deterministic values
-            return collapse
+            self.Qbit.vector[0] = collapse
+            self.Qbit.vector[1] = 0
+            return self.Qbit
 
     @staticmethod
     def _softmax(vector: list) -> list | bool:

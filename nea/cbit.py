@@ -16,7 +16,7 @@ class Cbit(Vector):
         self.Cbit = None
         self.__sub = sub  # Preformatting to change sub before testing
         try:
-            assert isinstance(type(dirac), int)
+            assert type(dirac) is int
         except AssertionError:
             print("E: 'dirac' must be a positive integer")
             exit(1)

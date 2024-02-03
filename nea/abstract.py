@@ -44,6 +44,10 @@ class Node:
     """Recursive generation binary tree object"""
 
     def __init__(self, data):
+        try:
+            assert type(data) is int
+        except AssertionError:
+            raise AttributeError('Data must be an integer')
         self.left = None
         self.right = None
         self.data = data
@@ -54,6 +58,10 @@ class Node:
         Adds a new Node object to the current root instance in the appropriate place
         @param data: data to be included
         """
+        try:
+            assert type(data) is int
+        except AssertionError:
+            raise AttributeError('Data must be an integer')
         if self.data:
             if data < self.data:
                 if self.left is None:
