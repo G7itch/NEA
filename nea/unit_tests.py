@@ -5,6 +5,7 @@ import os
 import sqlite3
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
+from math import isclose, sqrt
 
 import abstract
 import cbit
@@ -295,6 +296,88 @@ class TestDraggable(unittest.TestCase):
     def tearDown(self):
         plt.close()
 
+
+class TestQuantumGates(unittest.TestCase):
+    def setUp(self):
+        self.qbit0 = qbit.Qbit(0)
+        self.qbit1 = qbit.Qbit(1)
+
+    def test_hadamard_gate(self):
+        gates.H(self.qbit0)
+        self.assertAlmostEqual(self.qbit0.Cbit.vector[0], 1 / sqrt(2), places=6)
+        self.assertAlmostEqual(self.qbit0.Cbit.vector[1], 1 / sqrt(2), places=6)
+
+    def test_pauli_x_gate(self):
+        gates.X(self.qbit0)
+        self.assertEqual(self.qbit0.Cbit.vector, [0, 1])
+
+    def test_pauli_y_gate(self):
+        gates.Y(self.qbit0)
+        self.assertEqual(self.qbit0.Cbit.vector, [0, -1j])
+
+    def test_pauli_z_gate(self):
+        gates.Z(self.qbit0)
+        self.assertEqual(self.qbit0.Cbit.vector, [1, 0])
+
+    def test_phase_gate(self):
+        gates.P(self.qbit0)
+        self.assertEqual(self.qbit0.Cbit.vector, [1, 0])
+
+    def test_cnot_gate(self):
+        self.qbit1 = gates.CNOT(self.qbit0, self.qbit1)
+        self.assertEqual(self.qbit1.Cbit.vector, [0, 1])
+
+    def test_cz_gate(self):
+        self.qbit1 = gates.CZ(self.qbit0, self.qbit1)
+        self.assertEqual(self.qbit1.Cbit.vector, [0, 1])
+
+    def test_entangle(self):
+        entangled_qbits = gates.Entangle(self.qbit0, self.qbit1)
+        self.assertAlmostEqual(entangled_qbits.vector[0], 1 / sqrt(2), places=6)
+        self.assertAlmostEqual(entangled_qbits.vector[3], 1 / sqrt(2), places=6)
+
+    def test_teleport(self):
+        qbit2 = qbit.Qbit(1)
+        teleport_result = gates.Teleport(self.qbit0, qbit2)
+        self.assertEqual(teleport_result.vector, [1, 0])
+
+    def test_measurement(self):
+        measurement_result = gates.Measurement(self.qbit0)
+        self.assertEqual(measurement_result.vector, [0, 1])
+
+    def test_initialize(self):
+        name, value = gates.Initialise("new_qbit", [0])
+        vars()[name] = value
+        self.assertIn("new_qbit", vars())
+        self.assertIsInstance(vars()["new_qbit"], qbit.Qbit)
+
+    def test_matrix_multiplication(self):
+        gate = [[0, 1], [1, 0]]
+        result = gates.matrixMultiplication(gate, self.qbit0)
+        self.assertEqual(result.Cbit.vector, [0, 1])
+
+    def test_constants(self):
+        self.assertTrue(isclose(gates.Gates.HADAMARD.value[0][0], 1 / sqrt(2), rel_tol=1e-6))
+        self.assertEqual(gates.Gates.PAULI_X.value, [[0, 1], [1, 0]])
+        self.assertEqual(gates.Gates.PAULI_Y.value, [[0, -1j], [1j, 0]])
+        self.assertEqual(gates.Gates.PAULI_Z.value, [[1, 0], [0, -1]])
+        self.assertEqual(gates.Gates.PHASE.value, [[1, 0], [0, 1j]])
+        self.assertEqual(gates.Gates.T.value, [[1, 0], [0, sqrt(2) / 2 + 1j * sqrt(2) / 2]])
+        self.assertEqual(gates.Gates.CNOT.value, [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
+        self.assertEqual(gates.Gates.CZ.value, [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]])
+        self.assertEqual(gates.Gates.SWAP.value, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+        self.assertEqual(gates.Gates.TOFFOLI.value, [[1, 0, 0, 0, 0, 0, 0, 0],
+                                                     [0, 1, 0, 0, 0, 0, 0, 0],
+                                                     [0, 0, 1, 0, 0, 0, 0, 0],
+                                                     [0, 0, 0, 1, 0, 0, 0, 0],
+                                                     [0, 0, 0, 0, 1, 0, 0, 0],
+                                                     [0, 0, 0, 0, 0, 1, 0, 0],
+                                                     [0, 0, 0, 0, 0, 0, 0, 1],
+                                                     [0, 0, 0, 0, 0, 0, 1, 0]])
+
+    def tearDown(self):
+        self.qbit0 = qbit.Qbit(0)
+        self.qbit1 = qbit.Qbit(1)
 
 
 

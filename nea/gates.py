@@ -1,6 +1,9 @@
 from enum import Enum
 from math import sqrt, e, pi
 from random import randint
+from typing import Tuple, Any
+
+import numpy as np
 
 from qbit import Qbit
 
@@ -89,8 +92,8 @@ def H(qbit: Qbit) -> Qbit:
     qbit = matrixMultiplication(gate, qbit)
     qbit.probability = [[0 for _ in range(11)] for _ in range(11)]
     for i in range(2):
-        x = randint(0, 11)
-        y = randint(0, 11)
+        x = randint(0, 10)
+        y = randint(0, 10)
         qbit.probability[x][y] = 0.5
     return qbit
 
@@ -223,12 +226,11 @@ def Measurement(qbit: Qbit) -> Qbit:
     @param qbit: The Qbit object being measured
     @return: None
     """
-    print(qbit.measure())
     return qbit.measure()
 
 
 # noinspection PyPep8Naming
-def Initialise(name: str, values: list) -> None:
+def Initialise(name: str, values: list) -> tuple[str, Any]:
     """
     This function is used over the __init__ dunder method because it allows for more control over different
     instances. It can also be parsed into the diagram tool
@@ -236,11 +238,10 @@ def Initialise(name: str, values: list) -> None:
     @param values: The values the qbit should take
     @return: None
     """
-    locals()[name] = Qbit(1)
+    vars()[name] = Qbit(1)
+    return name, vars()[name]
 
 
 def matrixMultiplication(gate: list[list[float]], bit: Qbit) -> Qbit:
-    bit.vector = [[sum(a * b for a, b in zip(A_row, B_col)) for B_col in zip(*bit.vector)]
-                  for A_row in gate]
-    bit.vector = [x for y in bit.vector for x in y]
+    bit.Cbit.vector = np.dot(bit.Cbit.vector, gate).tolist()
     return bit

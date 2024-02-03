@@ -37,10 +37,10 @@ class Qbit(Cbit):
             return False
         else:
             bits = [0, 1]
-            collapse = int(choices(bits, weights=(self.Qbit.vector[0] ** 2, self.Qbit.vector[1] ** 2), k=1)[0])
+            collapse = int(choices(bits, weights=(self.Cbit.vector[0] ** 2, self.Cbit.vector[1] ** 2), k=1)[0])
             # Qbit vectors are probabilities rather than deterministic values
             self.Qbit.vector[0] = collapse
-            self.Qbit.vector[1] = 0
+            self.Qbit.vector[1] = abs(1 - collapse)
             return self.Qbit
 
     @staticmethod
