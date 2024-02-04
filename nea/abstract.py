@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 import ctypes
-from typing import Any
+from typing import Any, Optional
 
 
 class Tree(object):
     """Recursive generation generic tree object"""
     name: str
-    children: list[Any]
+    children: Optional[list[Tree] | None]
 
     def __init__(self, name='root', children=None):
         """Generic tree node."""

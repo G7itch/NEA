@@ -40,7 +40,7 @@ class Interpreter(object):
         """
         letters = string.ascii_letters
         objs = False
-        self.__temp_vars = {}
+        self.__temp_vars = {}  # We have to reset these values every time
         self.__command_string = ""  # This is used for regexing against to check for achievements
 
         for token in self.lex.scan(line):
