@@ -279,6 +279,8 @@ def filemenu() -> str:
             file_open = recent_list[2]
         case 99:
             exit(0)
+        case _:
+            exit(0)
 
     os.system("cls")
     return file_open

@@ -133,7 +133,7 @@ class Qbit(Cbit):
         """
         if not (isinstance(step, int)):
             return False
-
+        step = abs(step)
         newarray = []
         self.probability = self._applygauss2d(self.probability, step)
 
