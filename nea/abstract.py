@@ -183,7 +183,7 @@ class AbstractSyntaxTree(object):
     def in_order_traversal(self, current_index: int, datastream: list) -> list:
         """
         Returns a list representation of the tree after performing inorder traversal
-        @param current_index: The algorithms starting index
+        @param current_index: The algorithm starting index
         @param datastream: The current list of sorted items
         @return: datastream
         """
