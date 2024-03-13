@@ -31,7 +31,6 @@ class Vector(object):
         except AssertionError:
             print("Index must be an integer less than or equal to the length of the list")
             return False
-
         return self.vector[index]
 
     def setElement(self, index: int, value: float) -> bool:
